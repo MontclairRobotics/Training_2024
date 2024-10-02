@@ -3,21 +3,18 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
-
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
-import frc.robot.Constants.DriveConstants;
-import com.ctre.phoenix.sensors.CANCoder;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
+
 
 public class Drive extends SubsystemBase {
+
+  private PIDController pid;
   /** Creates a new ExampleSubsystem. */
-  public Drive() {}
+  public Drive() {
+    pid = new PIDController(-1,-1,-1);
+  }
 
   /**
    * Example command factory method.
