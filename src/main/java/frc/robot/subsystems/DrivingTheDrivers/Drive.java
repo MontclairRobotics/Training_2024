@@ -16,16 +16,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Drive extends SubsystemBase {
   
-  /** Creates a new ExampleSubsystem. */
+  /** Creates a new ExampleSubsystem. *
   public Drive() {
-    pid = new PIDController(-1,-1,-1);
+
     canSparkLeftForward = new CANSparkMax(1, MotorType.kBrushless);
     canSparkRightForward = new CANSparkMax(2, MotorType.kBrushless);
     canSparkLeftBack = new CANSparkMax(3, MotorType.kBrushless);
     canSparkRightBack = new CANSparkMax(4, MotorType.kBrushless);
     canBusName = "rio";
     canCoder = new CANcoder(1, canBusName);
-    canSparkLeftForward.set(pid.calculate((canCoder.getDistance(), PlaceholderSetpoint));
   }
 
   /**
