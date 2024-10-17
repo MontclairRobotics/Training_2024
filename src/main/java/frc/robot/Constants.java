@@ -11,6 +11,7 @@ package frc.robot;
  *
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
+ * I think the distances for each swerve module (as Translation2d) should go in constants
  */
 public final class Constants {
   public static class OperatorConstants {

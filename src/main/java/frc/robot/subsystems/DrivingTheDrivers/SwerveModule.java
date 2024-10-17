@@ -22,7 +22,6 @@ public class SwerveModule {
     private double tempYTarget = 10;
     private double tempRotationTarget = 90;
     private Rotation2d tempRotation2d = 30.0; //flip its a type mismach I don't know how they store the scary radian unit cirle robot rotation numbers! they have like a multible and then sin and cos right? Why must they do this to us! .·°՞(≧□≦)՞°·.
-
     
     public SwerveModule(int id) { //Hey wouldn't you need to ids or wait three? at least if we do it this way right? maybe I'm worng
 
@@ -33,9 +32,10 @@ public class SwerveModule {
 
         ChassisSpeeds.fromFieldRelativeSpeeds( //this "Converts a user provided field-relative set of speeds into a robot-relative ChassisSpeeds object."
             tempXTarget, tempYTarget, tempRotationTarget, /*getRobotHeading()*/ tempRotation2d); //aww we need that method at some point (returns us a rotation 2d of where facing I think)
-        // here we need an object of  SwerveDriveKinematics made with a Translation2d that cad has values for or somthing smh
+        // here we need an object of  SwerveDriveKinematics made with all of our Translation2d that cad has values for or somthing smh
         // SwerveModuleState[] swerveModuleStates =
         //     kinematics.toSwerveModuleStates(velocity, centerOfRotationMeters); // prety sure  all this stuff I'm doing goes in a different part of the file but I'll do real stuff tomawrrow this is just stuff abe told me about so now I'm writing it
                 moduleState = new SwerveModuleState(); 
+        
     }
 }
