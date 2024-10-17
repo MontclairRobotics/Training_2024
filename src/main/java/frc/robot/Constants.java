@@ -17,5 +17,15 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
     
+    //not sure if this should go under operator constants but for now we should have it here
+    public static final double forwardRightSwerveX = 0.0; //we will get these numbers later from CAD or smth
+    public static final double forwardRightSwerveY = 0.0;
+    public static final double forwardLeftSwerveX = 0.0;
+    public static final double forwardLeftSwerveY = 0.0;
+    public static final double backRightSwerveX = 0.0;
+    public static final double backRightSwerveY = 0.0;
+    public static final double backLeftSwerveX = 0.0;
+    public static final double backLeftSwerveY = 0.0;
+
   }
 }

@@ -25,10 +25,10 @@ public class Drive extends SubsystemBase {
   private Translation2d posBackRight;
   private Translation2d posBackLeft;
   public Drive() {
-    forwardRight = new SwerveModule(1,1,1,0.0,0.0);
-    forwardLeft = new SwerveModule(1,1,1,0.0,0.0);
-    backRight = new SwerveModule(1,1,1,0.0,0.0);
-    backLeft = new SwerveModule(1,1,1,0.0,0.0);
+    forwardRight = new SwerveModule(1,1,1,forwardRightSwerveX,forwardRightSwerveY); //these x and y constants are all 0.0 for now, and found under constants
+    forwardLeft = new SwerveModule(1,1,1,forwardLeftSwerveX,forwardLeftSwerveY);
+    backRight = new SwerveModule(1,1,1,backRightSwerveX,backRightSwerveY);
+    backLeft = new SwerveModule(1,1,1,backLeftSwerveX,backLeftSwerveY);
     posForwardRight = forwardRight.getPos();
     posForwardLeft = forwardLeft.getPos(); // bla bla unfinished 
     posBackRight = backRight.getPos();
