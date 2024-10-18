@@ -24,6 +24,14 @@ public class Drive extends SubsystemBase {
   private Translation2d posForwardLeft;
   private Translation2d posBackRight;
   private Translation2d posBackLeft;
+  public static final double forwardRightSwerveX = 0.0; //we will get these numbers later from CAD or smth
+  public static final double forwardRightSwerveY = 0.0;
+  public static final double forwardLeftSwerveX = 0.0;
+  public static final double forwardLeftSwerveY = 0.0;
+  public static final double backRightSwerveX = 0.0;
+  public static final double backRightSwerveY = 0.0;
+  public static final double backLeftSwerveX = 0.0;
+  public static final double backLeftSwerveY = 0.0;
   public Drive() {
     forwardRight = new SwerveModule(1,1,1,forwardRightSwerveX,forwardRightSwerveY); //these x and y constants are all 0.0 for now, and found under constants
     forwardLeft = new SwerveModule(1,1,1,forwardLeftSwerveX,forwardLeftSwerveY);
