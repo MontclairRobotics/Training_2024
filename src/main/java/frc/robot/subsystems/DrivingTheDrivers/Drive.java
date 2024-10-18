@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -24,6 +25,7 @@ public class Drive extends SubsystemBase {
   private Translation2d posForwardLeft;
   private Translation2d posBackRight;
   private Translation2d posBackLeft;
+  private SwerveDriveKinematics roboSwerve; // we should probably change the name later
   public static final double forwardRightSwerveX = 0.0; //we will get these numbers later from CAD or smth
   public static final double forwardRightSwerveY = 0.0;
   public static final double forwardLeftSwerveX = 0.0;
@@ -41,6 +43,9 @@ public class Drive extends SubsystemBase {
     posForwardLeft = forwardLeft.getPos(); // bla bla unfinished 
     posBackRight = backRight.getPos();
     posBackLeft = backLeft.getPos();
+
+    roboSwerve = new SwerveDriveKinematics(posForwardLeft,posForwardRight,posBackLeft,posBackRight);
+    //swerve kinematics - SwerveDriveKinematics object takes in 4 Translation2d objects, forwardleft, forwardright, backleft, and backright
   // here we  need an object of  SwerveDriveKinematics made with a Translation2d that cad has values for or somthing smh
         // SwerveModuleState[] swerveModuleStates =
         //     kinematics.toSwerveModuleStates(velocity, centerOfRotationMeters); // prety sure  all this stuff I'm doing goes in a different part of the file but I'll do real stuff tomawrrow this is just stuff abe told me about so now I'm writing it
