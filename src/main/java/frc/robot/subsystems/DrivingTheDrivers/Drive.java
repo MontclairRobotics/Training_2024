@@ -10,10 +10,14 @@ import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 
 public class Drive extends SubsystemBase {
@@ -25,26 +29,22 @@ public class Drive extends SubsystemBase {
   private Translation2d posForwardLeft;
   private Translation2d posBackRight;
   private Translation2d posBackLeft;
-  private SwerveDriveKinematics roboSwerve; // we should probably change the name later
-  public static final double forwardRightSwerveX = 0.0; //we will get these numbers later from CAD or smth
-  public static final double forwardRightSwerveY = 0.0;
-  public static final double forwardLeftSwerveX = 0.0;
-  public static final double forwardLeftSwerveY = 0.0;
-  public static final double backRightSwerveX = 0.0;
-  public static final double backRightSwerveY = 0.0;
-  public static final double backLeftSwerveX = 0.0;
-  public static final double backLeftSwerveY = 0.0;
-  public Drive() {
-    forwardRight = new SwerveModule(1,1,1,forwardRightSwerveX,forwardRightSwerveY); //these x and y constants are all 0.0 for now, and found under constants
-    forwardLeft = new SwerveModule(1,1,1,forwardLeftSwerveX,forwardLeftSwerveY);
-    backRight = new SwerveModule(1,1,1,backRightSwerveX,backRightSwerveY);
-    backLeft = new SwerveModule(1,1,1,backLeftSwerveX,backLeftSwerveY);
-    posForwardRight = forwardRight.getPos();
-    posForwardLeft = forwardLeft.getPos(); // bla bla unfinished 
-    posBackRight = backRight.getPos();
-    posBackLeft = backLeft.getPos();
+  private SwerveDriveKinematics roboSwerveKinematics; // we should probably change the name later
+  private SwerveModuleState[] swerveModuleStates;
+  private double tempXTarget = 10; //remove soon this represents the speeds were trying to get to and stuff (this is me writing code out probobly all wrong)
+  private double tempYTarget = 10;
+  private double tempRotationTarget = 90;
+  private Rotation2d tempRotation2d = new Rotation2d(0,0);
 
-    roboSwerve = new SwerveDriveKinematics(posForwardLeft,posForwardRight,posBackLeft,posBackRight);
+  public Drive() {
+    forwardRight = new SwerveModule(1,1,1,Constants.SwerveModuleConstants.forwardRightSwerveX,Constants.SwerveModuleConstants.forwardRightSwerveY); //these x and y constants are all 0.0 for now, and found under constants
+    forwardLeft = new SwerveModule(1,1,1,Constants.SwerveModuleConstants.forwardLeftSwerveX,Constants.SwerveModuleConstants.forwardLeftSwerveY);
+    backRight = new SwerveModule(1,1,1,Constants.SwerveModuleConstants.backRightSwerveX,Constants.SwerveModuleConstants.backRightSwerveY);
+    backLeft = new SwerveModule(1,1,1,Constants.SwerveModuleConstants.backLeftSwerveX,Constants.SwerveModuleConstants.backLeftSwerveY);
+    roboSwerveKinematics = new SwerveDriveKinematics(posForwardLeft,posForwardRight,posBackLeft,posBackRight);
+    swerveModuleStates = roboSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
+    tempXTarget, tempYTarget, tempRotationTarget, tempRotation2d));
+
     //swerve kinematics - SwerveDriveKinematics object takes in 4 Translation2d objects, forwardleft, forwardright, backleft, and backright
   // here we  need an object of  SwerveDriveKinematics made with a Translation2d that cad has values for or somthing smh
         // SwerveModuleState[] swerveModuleStates =
