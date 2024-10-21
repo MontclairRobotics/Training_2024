@@ -44,6 +44,11 @@ public class Drive extends SubsystemBase {
     roboSwerveKinematics = new SwerveDriveKinematics(posForwardLeft,posForwardRight,posBackLeft,posBackRight);
     swerveModuleStates = roboSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
     tempXTarget, tempYTarget, tempRotationTarget, tempRotation2d));
+    // next we need to do the PID stuff. I'm mostly sure the Swerve module states are what we put into PID. For the forwardLeft one, we input forwardLeft's current state, and the swerve states with an index of 0. Then forward right for current and states index 1 would be for changing forward right, etc. This is how wpilib has it: motor.set(pid.calculate(encoder.getDistance(), setpoint));
+    // for PID we may have to do different stuff just because the motors may require their own methods. PID also has a setpoint method
+
+
+
 
     //swerve kinematics - SwerveDriveKinematics object takes in 4 Translation2d objects, forwardleft, forwardright, backleft, and backright
   // here we  need an object of  SwerveDriveKinematics made with a Translation2d that cad has values for or somthing smh
