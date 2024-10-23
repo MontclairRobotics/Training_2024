@@ -52,9 +52,9 @@ public class SwerveModule {
         slot0Configs.kI = 0; // no output for integrated error
         slot0Configs.kD = 0; // no output for error derivative      
         falconMotorThing.getConfigurator().apply(slot0Configs); //configures stuff idk exactly
-        final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
+        final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0); //idk what withSlot is but we will figure it out
         falconMotorThing.setControl(m_request.withVelocity(8).withFeedForward(0.5));
-        // a lot of values will get changed, and I hope this is right
+        // a lot of values will get changed, and I hope this is right, and we also if we wanted we can put some of these in methods to clean up the code but we don't need to
         
     }
 
