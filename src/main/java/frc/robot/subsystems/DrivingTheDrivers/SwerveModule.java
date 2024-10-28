@@ -29,37 +29,27 @@ public class SwerveModule {
     
     public SwerveModule(int id1, int id2, int id3, double x, double y) { 
         // We also need to put the data (swervestates) into here so we know the setpoint/request with velocity
-        canCoder = new CANcoder(id1,"useless");
+        canCoder = new CANcoder(id1,"rio");
         turnMotor = new CANSparkMax(id2, MotorType.kBrushless);
         falconMotorThing = new TalonFX(id3);
         pid = new PIDController(1,1,1);
         position = new Translation2d(x,y);
         moduleState = new SwerveModuleState(); 
-        
         // we need revpid controls :)!!!
         SparkPIDController m_pidController = turnMotor.getPIDController();
         m_pidController.setP(0.5);
         m_pidController.setI(0.5);
         m_pidController.setD(0.5);
         m_pidController.setIZone(0.5);
-        // we need to tune :(
+        // we need to tune w/ voltage to get an output that is in voltages so we can put it in the move thing
         m_pidController.setReference(1, CANSparkBase.ControlType.kVelocity);
-
-        var slot0Configs = new Slot0Configs();
-        slot0Configs.kS = 0.1; // Add 0.1 V output to overcome static friction
-        slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
-        slot0Configs.kP = 0.11; // An error of 1 rps results in 0.11 V output
-        slot0Configs.kI = 0; // no output for integrated error
-        slot0Configs.kD = 0; // no output for error derivative      
-        falconMotorThing.getConfigurator().apply(slot0Configs); //configures stuff idk exactly
-        final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0); //idk what withSlot is but we will figure it out
-        falconMotorThing.setControl(m_request.withVelocity(8).withFeedForward(0.5));
         // a lot of values will get changed, and I hope this is right, and we also if we wanted we can put some of these in methods to clean up the code but we don't need to
         
     }
 
-    public Translation2d getPos() {
-        return position;
+    public void move(double falconVoltage, double turnVoltage) {  // this should acutally work the one thing we have to do now is get the modual state into the the PID. LET's Do this!
+        falconMotorThing.setVoltage(falconVoltage);
+        turnMotor.set(turnVoltage);
     }
-    
+   
 }
