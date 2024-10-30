@@ -40,7 +40,8 @@ public class SwerveModule {
         m_pidController.setIZone(0.5);
         // TODO: we need to tune w/ voltage to get an output that is in voltages so we can put it in the move thing
         m_pidController.setReference(1, CANSparkBase.ControlType.kVelocity);
-        //TODO: gota fix this mess later         
+        //TODO: gota fix this mess later
+        pid.calculate(yTranslation2d);
     }
 
     public void move(double falconVoltage, double turnVoltage) {  // this should acutally work the one thing we have to do now is get the modual state into the the PID. LET's Do this!
