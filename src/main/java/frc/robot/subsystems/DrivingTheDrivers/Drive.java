@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems.DrivingTheDrivers;
+
 import com.revrobotics.CANSparkMax; // Pretty sure we don't need this motor stuff here because its handled in the swerve module class? No?
 import com.revrobotics.SparkPIDController;
 import com.ctre.phoenix6.hardware.CANcoder;
@@ -37,18 +38,16 @@ public class Drive extends SubsystemBase {
   private double tempYTarget = 10;
   private double tempRotationTarget = 90;
   private Rotation2d tempRotation2d = new Rotation2d(0,0);
-  private PS4Controller controllerToControlTheRobot; //absolutly not we are not naming like this 
-  private SparkPIDController canSparkPIDcontroller; 
-  private CANSparkBase canBase;
+  private PS4Controller ps4Controller; //absolutly not we are not naming like this 
+  
   
   public Drive() {
-    canSparkPIDcontroller = canBase.getPIDController();
     forwardRight = new SwerveModule(1,1,1,Constants.SwerveModuleConstants.forwardRightSwerveX,Constants.SwerveModuleConstants.forwardRightSwerveY); //these x and y constants are all 0.0 for now, and found under constants
     forwardLeft = new SwerveModule(1,1,1,Constants.SwerveModuleConstants.forwardLeftSwerveX,Constants.SwerveModuleConstants.forwardLeftSwerveY); //if CAD won't tell us we can tottally just look in the old robot code of this. 
     backRight = new SwerveModule(1,1,1,Constants.SwerveModuleConstants.backRightSwerveX,Constants.SwerveModuleConstants.backRightSwerveY);
     backLeft = new SwerveModule(1,1,1,Constants.SwerveModuleConstants.backLeftSwerveX,Constants.SwerveModuleConstants.backLeftSwerveY);
-    roboSwerveKinematics = new SwerveDriveKinematics(posForwardLeft,posForwardRight,posBackLeft,posBackRight);
-    canSparkPIDcontroller.setReference(/*what what goes in here? theres a dubble????*/);
+
+    roboSwerveKinematics = new SwerveDriveKinematics(posForwardLeft,posForwardRight,posBackLeft,posBackRight); //output in meters/second so we will be using this unit for everything now!
     swerveModuleStates = roboSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
     tempXTarget, tempYTarget, tempRotationTarget, tempRotation2d)); //TODO: fix this
   }
