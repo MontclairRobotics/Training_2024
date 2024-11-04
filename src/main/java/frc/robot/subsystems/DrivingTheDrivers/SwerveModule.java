@@ -2,10 +2,8 @@ package frc.robot.subsystems.DrivingTheDrivers;
 
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.math.controller.PIDController;
 //import edu.wpi.first.math.geometry.Rotation2d; ////were not using this here are we?
@@ -21,10 +19,12 @@ public class SwerveModule {
     private PIDController DrivePID;
     private CANcoder canCoder; //wholy cow my java must be gone because why is it say that these go unused???? I'm probobly blind
     private SwerveModuleState moduleState;
-    private Translation2d realTranslation2d;
+    private Translation2d translation2d;
+    private double currentDriveVoltage;
+    private double currentTurnVoltage;
 
     
-    public SwerveModule(int canCoderID, int canTurnMotorID, int falconMotorDriveID, double xTranslation2d, double yTranslation2d) { 
+    public SwerveModule(int canCoderID, int canTurnMotorID, int falconMotorDriveID) { 
 
         // We also need to put the data (swervestates) into here so we know the setpoint/request with velocity
          //wait what do we?
@@ -37,16 +37,15 @@ public class SwerveModule {
         DrivePID  = new PIDController(1,1,1); //placeholder values for PID
 // TODO: we need to tune w/ voltage to get an output that is in voltages so we can put it in the move thing
 
-        realTranslation2d = new Translation2d(xTranslation2d,yTranslation2d); 
         moduleState = new SwerveModuleState(); 
-
-        DrivePID.calculate(yTranslation2d); // place holders we need the mesurments (through an encoder) and and targets to put into this I think (why is it saying it only needs the mesurment help!)
-        RotationPID.calculate(yTranslation2d);
     }
 
-    public void move(double falconVoltage, double turnVoltage) {
-        falconMotorDrive.setVoltage(falconVoltage);
-        canTurnMotor.set(turnVoltage);
+    public void move(double targetSpeed, double rotationDegrees) {
+        
+        currentDriveVoltage = DrivePID.calculate(currentDriveVoltage, targetSpeed);
+        currentTurnVoltage = RotationPID.calculate(canCoder.getPosition().getValue(), rotationDegrees);
+        falconMotorDrive.set(currentDriveVoltage);
+        canTurnMotor.set(currentTurnVoltage);
     }
    
 }
