@@ -17,7 +17,7 @@ public class SwerveModule {
     private CANSparkMax canTurnMotor;
     private PIDController RotationPID;
     private PIDController DrivePID;
-    private CANcoder canCoder; //wholy cow my java must be gone because why is it say that these go unused???? I'm probobly blind
+    private CANcoder canCoder;
     private SwerveModuleState moduleState;
     private Translation2d translation2d;
     private double currentDriveVoltage;
@@ -41,7 +41,7 @@ public class SwerveModule {
     }
 
     public void move(double targetSpeed, double rotationDegrees) {
-        
+
         currentDriveVoltage = DrivePID.calculate(currentDriveVoltage, targetSpeed);
         currentTurnVoltage = RotationPID.calculate(canCoder.getPosition().getValue(), rotationDegrees);
         falconMotorDrive.set(currentDriveVoltage);

@@ -4,6 +4,10 @@
 
 package frc.robot;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+
+import edu.wpi.first.math.geometry.Translation2d;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -21,13 +25,9 @@ public final class Constants {
 
   }
   public static class SwerveModuleConstants {
-  public static final double forwardRightSwerveX = 0.0; //we will get these numbers later from CAD or smth
-  public static final double forwardRightSwerveY = 0.0;
-  public static final double forwardLeftSwerveX = 0.0;
-  public static final double forwardLeftSwerveY = 0.0;
-  public static final double backRightSwerveX = 0.0;
-  public static final double backRightSwerveY = 0.0;
-  public static final double backLeftSwerveX = 0.0;
-  public static final double backLeftSwerveY = 0.0;
+  public static final Translation2d forwardRightSwerve = (0.0, 0.0); //we will get these numbers later from CAD or smth
+  public static final Translation2d forwardLeftSwerve = (0.0);
+  public static final Translation2d backRightSwerve = 0.0; // wong how do you creat a translation 2d? type mismatch for now lol
+  public static final Translation2d backLeftSwerve = 0.0;  //if CAD won't tell us we can tottally just look in the old robot code of this. 
   }
 }
