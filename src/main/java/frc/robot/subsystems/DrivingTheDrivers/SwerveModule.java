@@ -20,18 +20,14 @@ public class SwerveModule {
     private CANSparkMax canTurnMotor;
     private PIDController RotationPID;
     private PIDController DrivePID;
-    private SwerveModuleState[] swerveModuleState; //TODO: figure out why this says not being used all wierd.
     private CANcoder canCoder;
     private Translation2d translation2d;
     private double currentDriveVoltage;
     private double currentTurnVoltage;
-    private double tempXTarget = 10; //remove soon this represents the speeds were trying to get to and stuff (this is me writing code out probobly all wrong)
-    private double tempYTarget = 10;
-    private double tempRotationTarget = 90;
-    private Rotation2d tempRotation2d = new Rotation2d(0,0);
+   
 
     
-    public SwerveModule(int canCoderID, int canTurnMotorID, int falconMotorDriveID) { 
+    public SwerveModule(int canCoderID, int canTurnMotorID, int falconMotorDriveID, int id) { 
 
         // We also need to put the data (swervestates) into here so we know the setpoint/request with velocity
          //wait what do we?
@@ -49,11 +45,9 @@ public class SwerveModule {
     }
 
     public void move(double targetSpeed, double rotationDegrees) {
-
-        swerveModuleState = RobotContainer.drive.roboSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
-            tempXTarget, tempYTarget, tempRotationTarget, tempRotation2d)); //TODO: replace temps
         
-        currentDriveVoltage = DrivePID.calculate(currentDriveVoltage, swerveModuleState);
+        
+        currentDriveVoltage = DrivePID.calculate(currentDriveVoltage, targetSpeed); //replace target speed with numbers from swervedrive states.
         currentTurnVoltage = RotationPID.calculate(canCoder.getPosition().getValue(), rotationDegrees);
         
         falconMotorDrive.set(currentDriveVoltage);

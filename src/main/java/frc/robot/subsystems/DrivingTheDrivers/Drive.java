@@ -12,6 +12,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 
 public class Drive extends SubsystemBase {
@@ -19,6 +20,11 @@ public class Drive extends SubsystemBase {
   private SwerveModule forwardLeft;
   private SwerveModule backRight;
   private SwerveModule backLeft;
+  private SwerveModuleState[] swerveModuleStatesArray; //TODO: figure out why this says not being used all wierd.
+  private double tempXTarget = 10; //remove soon this represents the speeds were trying to get to and stuff (this is me writing code out probobly all wrong)
+  private double tempYTarget = 10;
+  private double tempRotationTarget = 90;
+  private Rotation2d tempRotation2d = new Rotation2d(0,0);
   public SwerveDriveKinematics roboSwerveKinematics; // TODO: we should probably change the name later
   private PS4Controller ps4Controller; //absolutly not we are not naming like this 
   
@@ -33,9 +39,10 @@ public class Drive extends SubsystemBase {
     // backLeft = new SwerveModule(1,1,1);
 
     roboSwerveKinematics = new SwerveDriveKinematics(Constants.SwerveModuleConstants.forwardLeftSwerve, Constants.SwerveModuleConstants.forwardRightSwerve, 
-      Constants.SwerveModuleConstants.backRightSwerve, Constants.SwerveModuleConstants.backLeftSwerve);
+      Constants.SwerveModuleConstants.backRightSwerve, Constants.SwerveModuleConstants.backLeftSwerve); 
       // output in meters/second so we will be using this unit for everything now!
-    
+     swerveModuleStatesArray = RobotContainer.drive.roboSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
+            tempXTarget, tempYTarget, tempRotationTarget, tempRotation2d)); //TODO: replace temps
     
 
     
