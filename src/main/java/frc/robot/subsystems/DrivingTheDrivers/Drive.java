@@ -5,7 +5,6 @@
 package frc.robot.subsystems.DrivingTheDrivers;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -16,37 +15,37 @@ import frc.robot.RobotContainer;
 
 
 public class Drive extends SubsystemBase {
-  private SwerveModule forwardRight;
-  private SwerveModule forwardLeft;
-  private SwerveModule backRight;
-  private SwerveModule backLeft;
-  private SwerveModuleState[] swerveModuleStatesArray; //TODO: figure out why this says not being used all wierd.
-  private double tempXTarget = 10; //remove soon this represents the speeds were trying to get to and stuff (this is me writing code out probobly all wrong)
+
+  private SwerveModule forwardLeftModule;
+  private SwerveModule forwardRightModule; //TODO: figure out why this says not being used all wierd.
+  private SwerveModule backLeftModule;
+  private SwerveModule backRightModule;
+
+  public SwerveModuleState[] swerveModuleStatesArray; 
+  private double tempXTarget = 10; //TODO: remove and use the real values from the controller
   private double tempYTarget = 10;
   private double tempRotationTarget = 90;
   private Rotation2d tempRotation2d = new Rotation2d(0,0);
-  public SwerveDriveKinematics roboSwerveKinematics; // TODO: we should probably change the name later
-  private PS4Controller ps4Controller; //absolutly not we are not naming like this 
+  public SwerveDriveKinematics roboSwerveKinematics;
+  private PS4Controller ps4Controller;
   
   public Drive() {
 
-    
 
+    forwardLeftModule = new SwerveModule(1,1,1,0); //First three values are the IDs for the motors and the last just tells it which module it is. id: 0 front left, 1 front right, 2 back left, 3 back right.
+    forwardRightModule = new SwerveModule(1,1,1,1); // creates the swerve module objects
+    backLeftModule = new SwerveModule(1,1,1,2);
+    backRightModule = new SwerveModule(1,1,1,3);
 
-    // forwardRight = new SwerveModule(1,1,1);
-    // forwardLeft = new SwerveModule(1,1,1);
-    // backRight = new SwerveModule(1,1,1);
-    // backLeft = new SwerveModule(1,1,1);
 
     roboSwerveKinematics = new SwerveDriveKinematics(Constants.SwerveModuleConstants.forwardLeftSwerve, Constants.SwerveModuleConstants.forwardRightSwerve, 
       Constants.SwerveModuleConstants.backRightSwerve, Constants.SwerveModuleConstants.backLeftSwerve); 
-      // output in meters/second so we will be using this unit for everything now!
+      // outputs in meters/second so we will be using this unit for everything now!
+
      swerveModuleStatesArray = RobotContainer.drive.roboSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
-            tempXTarget, tempYTarget, tempRotationTarget, tempRotation2d)); //TODO: replace temps
+            tempXTarget, tempYTarget, tempRotationTarget, tempRotation2d)); //TODO: replace temps w/ controller values
     
 
     
   }
 }
-    // next we need to do the PID stuff. Numbers from Swerve module states are what we put into PID (AND if tuned right should output volteges to feedinto out motors). For the forwardLeft one, we input forwardLeft's current state, and the swerve states with an index of 0. Then forward right for current and states index 1 would be for changing forward right, etc. This is how wpilib has it: motor.set(pid.calculate(encoder.getDistance(), setpoint));
-    // for PID we may have to do different stuff just because the motors may require their own methods. PID also has a setpoint method

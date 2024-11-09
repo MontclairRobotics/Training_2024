@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
-
 import edu.wpi.first.math.geometry.Translation2d;
 
 /**

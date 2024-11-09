@@ -6,12 +6,6 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Rotation2d;
-//import edu.wpi.first.math.geometry.Rotation2d; //were not using this here are we?
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 public class SwerveModule {
@@ -21,37 +15,32 @@ public class SwerveModule {
     private PIDController RotationPID;
     private PIDController DrivePID;
     private CANcoder canCoder;
-    private Translation2d translation2d;
     private double currentDriveVoltage;
     private double currentTurnVoltage;
    
 
     
-    public SwerveModule(int canCoderID, int canTurnMotorID, int falconMotorDriveID, int id) { 
+    public SwerveModule(int canCoderID, int canTurnMotorID, int falconMotorDriveID, int id) { //id: 0 front left, 1 front right, 2 back left, 3 back right.
 
-        // We also need to put the data (swervestates) into here so we know the setpoint/request with velocity
-         //wait what do we?
 
-        canCoder = new CANcoder(canCoderID,"rio"); //changed name to rio here (must be called rio can't just make up a name)
+        canCoder = new CANcoder(canCoderID,"rio"); //canbus must be named "rio"
         canTurnMotor = new CANSparkMax(canTurnMotorID, MotorType.kBrushless);
         falconMotorDrive = new TalonFX(falconMotorDriveID);
 
-        
 
         RotationPID = new PIDController(1,1,1); //placeholder values for PID
         DrivePID  = new PIDController(1,1,1); //placeholder values for PID
-// TODO: we need to tune w/ voltage to get an output that is in voltages so we can put it in the move thing
-
     }
 
     public void move(double targetSpeed, double rotationDegrees) {
         
         
-        currentDriveVoltage = DrivePID.calculate(currentDriveVoltage, targetSpeed); //replace target speed with numbers from swervedrive states.
-        currentTurnVoltage = RotationPID.calculate(canCoder.getPosition().getValue(), rotationDegrees);
-        
+        currentDriveVoltage = DrivePID.calculate(currentDriveVoltage, RobotContainer.drive.swerveModuleStatesArray[0].speedMetersPerSecond); //omg its working. However, we have to replace that 0 with the ID we take in. I kinda forgot how to do that lol. I thought you could use the this keyword but then I got confused
+        currentTurnVoltage = RotationPID.calculate(canCoder.getPosition().getValue(), RobotContainer.drive.swerveModuleStatesArray[0].angle.getDegrees()); // This one needed .getDegrees() because swervemodulestates stores a rotation 2d no degrees but I did some snooping in the class and found this.
+        // TODO: Tune w/ voltage to get an output that is in voltages so we can put it in the move thing
+
+
         falconMotorDrive.set(currentDriveVoltage);
         canTurnMotor.set(currentTurnVoltage);
     }
-   
 }
