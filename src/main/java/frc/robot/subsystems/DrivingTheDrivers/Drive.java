@@ -9,6 +9,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.PS4Controller;
+import edu.wpi.first.wpilibj.PS5Controller;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -27,7 +28,11 @@ public class Drive extends SubsystemBase {
   private double tempRotationTarget = 90;
   private Rotation2d tempRotation2d = new Rotation2d(0,0);
   public SwerveDriveKinematics roboSwerveKinematics;
-  private PS4Controller ps4Controller;
+  private PS5Controller ps5Controller;
+  private double rotationTarget;
+  private double xMoveSpeedTarget;
+  private double rotationSpeedTarget; 
+  private double yMoveSpeedTarget;
   
   public Drive() {
 
@@ -37,15 +42,29 @@ public class Drive extends SubsystemBase {
     backLeftModule = new SwerveModule(1,1,1,2);
     backRightModule = new SwerveModule(1,1,1,3);
 
+    ps5Controller = new PS5Controller(1);
+
 
     roboSwerveKinematics = new SwerveDriveKinematics(Constants.SwerveModuleConstants.forwardLeftSwerve, Constants.SwerveModuleConstants.forwardRightSwerve, 
       Constants.SwerveModuleConstants.backRightSwerve, Constants.SwerveModuleConstants.backLeftSwerve); 
       // outputs in meters/second so we will be using this unit for everything now!
 
-     swerveModuleStatesArray = RobotContainer.drive.roboSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
-            tempXTarget, tempYTarget, tempRotationTarget, tempRotation2d)); //TODO: replace temps w/ controller values
-    
 
     
+  }
+  public void periodic() {
+    rotationTarget = ps5Controller.getRightX();
+    rotationSpeedTarget = ps5Controller.getRightY() * 2;
+    xMoveSpeedTarget = ps5Controller.getLeftX() * 2; // 2 represents the max speed in m/s
+    yMoveSpeedTarget = ps5Controller.getLeftY() * 2; 
+
+    swerveModuleStatesArray = RobotContainer.drive.roboSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
+            xMoveSpeedTarget, yMoveSpeedTarget, rotationSpeedTarget, tempRotation2d));
+
+    forwardLeftModule.setState(swerveModuleStatesArray[0]);
+    forwardRightModule.setState(swerveModuleStatesArray[1]);
+    backLeftModule.setState(swerveModuleStatesArray[2]);
+    backRightModule.setState(swerveModuleStatesArray[3]);
+
   }
 }
