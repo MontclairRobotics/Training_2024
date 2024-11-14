@@ -4,7 +4,8 @@
 
 package frc.robot.subsystems.DrivingTheDrivers;
 
-import edu.wpi.first.math.geometry.Rotation2d;
+import com.ctre.phoenix6.hardware.Pigeon2;
+
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -16,51 +17,56 @@ import frc.robot.RobotContainer;
 
 public class Drive extends SubsystemBase {
 
-  private SwerveModule forwardLeftModule;
-  private SwerveModule forwardRightModule;
+  private SwerveModule frontLeftModule;
+  private SwerveModule frontRightModule;
   private SwerveModule backLeftModule;
   private SwerveModule backRightModule;
 
   public SwerveModuleState[] swerveModuleStatesArray; 
-  private Rotation2d tempRotation2d = new Rotation2d(0,0);
   public SwerveDriveKinematics roboSwerveKinematics;
   private PS5Controller ps5Controller;
-  private double rotationTarget;  //TODO: figure out why this says not being used all wierd.
   private double xMoveSpeedTarget;
   private double rotationSpeedTarget; 
   private double yMoveSpeedTarget;
+  private Pigeon2 gyro;
+  
+
   
   public Drive() {
 
 
-    forwardLeftModule = new SwerveModule(1,1,1); //The values are the IDs for the motors
-    forwardRightModule = new SwerveModule(1,1,1); // creates the swerve module objects
+    frontLeftModule = new SwerveModule(1,1,1); //The values are the IDs for the motors
+    frontRightModule = new SwerveModule(1,1,1); // creates the swerve module objects
     backLeftModule = new SwerveModule(1,1,1);
     backRightModule = new SwerveModule(1,1,1);
 
     ps5Controller = new PS5Controller(1);
-
+    gyro = new Pigeon2(0, "rio");
 
     roboSwerveKinematics = new SwerveDriveKinematics(Constants.SwerveModuleConstants.forwardLeftSwerve, Constants.SwerveModuleConstants.forwardRightSwerve, 
       Constants.SwerveModuleConstants.backRightSwerve, Constants.SwerveModuleConstants.backLeftSwerve); 
       // outputs in meters/second so we will be using this unit for everything now!
 
   }
-
   public void periodic() {
 
-    rotationTarget = ps5Controller.getRightX();
-    rotationSpeedTarget = ps5Controller.getRightY() * 2;
+    rotationSpeedTarget = ps5Controller.getRightX() * 2;
     xMoveSpeedTarget = ps5Controller.getLeftX() * 2; // 2 represents the max speed in m/s
     yMoveSpeedTarget = ps5Controller.getLeftY() * 2; 
 
     swerveModuleStatesArray = RobotContainer.drive.roboSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
-            xMoveSpeedTarget, yMoveSpeedTarget, rotationSpeedTarget, tempRotation2d));
+            xMoveSpeedTarget, yMoveSpeedTarget, rotationSpeedTarget, gyro.getRotation2d()));
 
-    forwardLeftModule.setState(swerveModuleStatesArray[0]);
-    forwardRightModule.setState(swerveModuleStatesArray[1]);
+    frontLeftModule.setState(swerveModuleStatesArray[0]);
+    frontRightModule.setState(swerveModuleStatesArray[1]);
     backLeftModule.setState(swerveModuleStatesArray[2]);
     backRightModule.setState(swerveModuleStatesArray[3]);
 
+    if (rotationSpeedTarget != 0 || xMoveSpeedTarget != 0 || yMoveSpeedTarget !=0) {
+    frontLeftModule.move();
+    frontRightModule.move();
+    frontLeftModule.move();
+    backRightModule.move();
+    }
   }
 }

@@ -18,6 +18,7 @@ public class SwerveModule {
     private double currentDriveVoltage;
     private double currentTurnVoltage;
     private SwerveModuleState state;
+    
 
     
     public SwerveModule(int canCoderID, int canTurnMotorID, int falconMotorDriveID) {
@@ -32,10 +33,10 @@ public class SwerveModule {
         DrivePID  = new PIDController(1,1,1); //placeholder values for PID
     }
 
-    public void move(double targetSpeed, double rotationDegrees) {
+    public void move() {
         
         
-        currentDriveVoltage = DrivePID.calculate(currentDriveVoltage, state.speedMetersPerSecond); //omg its working. However, we have to replace that 0 with the ID we take in. I kinda forgot how to do that lol. I thought you could use the this keyword but then I got confused
+        currentDriveVoltage = DrivePID.calculate(currentDriveVoltage, state.speedMetersPerSecond); 
         currentTurnVoltage = RotationPID.calculate(canCoder.getPosition().getValue(), state.angle.getDegrees()); // This one needed .getDegrees() because swervemodulestates stores a rotation 2d no degrees but I did some snooping in the class and found this.
         // TODO: Tune w/ voltage to get an output that is in voltages so we can put it in the move thing
 
