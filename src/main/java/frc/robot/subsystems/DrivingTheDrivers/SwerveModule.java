@@ -7,8 +7,6 @@ import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import frc.robot.RobotContainer;
-import edu.wpi.first.wpilibj.PS5Controller;
 
 public class SwerveModule {
 
@@ -22,7 +20,7 @@ public class SwerveModule {
     private SwerveModuleState state;
 
     
-    public SwerveModule(int canCoderID, int canTurnMotorID, int falconMotorDriveID, int id) { //id: 0 front left, 1 front right, 2 back left, 3 back right.
+    public SwerveModule(int canCoderID, int canTurnMotorID, int falconMotorDriveID) {
 
 
         canCoder = new CANcoder(canCoderID,"rio"); //canbus must be named "rio"
