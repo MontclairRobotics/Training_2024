@@ -29,8 +29,8 @@ public class SwerveModule {
         falconMotorDrive = new TalonFX(falconMotorDriveID);
 
 
-        RotationPID = new PIDController(1,1,1); //placeholder values for PID
-        DrivePID  = new PIDController(1,1,1); //placeholder values for PID
+        RotationPID = new PIDController(1,0,0); //placeholder values for PID
+        DrivePID  = new PIDController(1,0,0); //placeholder values for PID
     }
 
     public void move() {

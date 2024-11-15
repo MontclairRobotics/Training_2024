@@ -23,9 +23,9 @@ public final class Constants {
 
   }
   public static class SwerveModuleConstants {
-  public static final Translation2d forwardRightSwerve = new Translation2d(0.0, 0.0); //we will get these numbers later from CAD or smth
-  public static final Translation2d forwardLeftSwerve = new Translation2d(0.0, 0.0);
-  public static final Translation2d backRightSwerve = new Translation2d(0.0, 0.0);
-  public static final Translation2d backLeftSwerve = new Translation2d(0.0, 0.0);  //if CAD won't tell us we can tottally just look in the old robot code of this. 
+  public static final Translation2d forwardRightSwerve = new Translation2d(0.301625, 0.301625); 
+  public static final Translation2d forwardLeftSwerve = new Translation2d(0.301625, 0.301625);
+  public static final Translation2d backRightSwerve = new Translation2d(0.301625, 0.301625);
+  public static final Translation2d backLeftSwerve = new Translation2d(0.301625, 0.301625); 
   }
 }

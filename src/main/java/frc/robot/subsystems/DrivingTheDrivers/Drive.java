@@ -35,12 +35,13 @@ public class Drive extends SubsystemBase {
   public Drive() {
 
 
-    frontLeftModule = new SwerveModule(1,1,1); //The values are the IDs for the motors
-    frontRightModule = new SwerveModule(1,1,1); // creates the swerve module objects
-    backLeftModule = new SwerveModule(1,1,1);
-    backRightModule = new SwerveModule(1,1,1);
+    frontLeftModule = new SwerveModule(10,1,5); //The values are the IDs for the motors
+    frontRightModule = new SwerveModule(11,2,6); // creates the swerve module objects
+    backLeftModule = new SwerveModule(12,3,7);
+    backRightModule = new SwerveModule(13,4,8);
 
-    ps5Controller = new PS5Controller(1);
+    ps5Controller = new PS5Controller(0);
+
     gyro = new Pigeon2(0, "rio");
 
     roboSwerveKinematics = new SwerveDriveKinematics(Constants.SwerveModuleConstants.forwardLeftSwerve, Constants.SwerveModuleConstants.forwardRightSwerve, 
@@ -63,10 +64,10 @@ public class Drive extends SubsystemBase {
     backRightModule.setState(swerveModuleStatesArray[3]);
 
     if (rotationSpeedTarget != 0 || xMoveSpeedTarget != 0 || yMoveSpeedTarget !=0) {
-    frontLeftModule.move();
-    frontRightModule.move();
-    frontLeftModule.move();
-    backRightModule.move();
+      frontLeftModule.move();
+      frontRightModule.move();
+      frontLeftModule.move();
+      backRightModule.move();
     }
   }
 }
