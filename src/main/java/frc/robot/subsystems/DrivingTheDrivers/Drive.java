@@ -37,12 +37,12 @@ public class Drive extends SubsystemBase {
 
     frontLeftModule = new SwerveModule(10,1,5); //The values are the IDs for the motors
     frontRightModule = new SwerveModule(11,2,6); // creates the swerve module objects
-    backLeftModule = new SwerveModule(12,3,7);
-    backRightModule = new SwerveModule(13,4,8);
+    backLeftModule = new SwerveModule(9,3,7);
+    backRightModule = new SwerveModule(12,4,8);
 
     ps5Controller = new PS5Controller(0);
 
-    gyro = new Pigeon2(0, "rio");
+    gyro = new Pigeon2(25, "rio");
 
     roboSwerveKinematics = new SwerveDriveKinematics(Constants.SwerveModuleConstants.forwardLeftSwerve, Constants.SwerveModuleConstants.forwardRightSwerve, 
       Constants.SwerveModuleConstants.backRightSwerve, Constants.SwerveModuleConstants.backLeftSwerve); 
