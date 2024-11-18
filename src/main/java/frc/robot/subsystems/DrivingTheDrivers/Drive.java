@@ -84,7 +84,11 @@ public class Drive extends SubsystemBase {
       frontLeftModule.move();
       backRightModule.move();
     } else {
+      System.out.println("calling .stop on modules");
       frontLeftModule.stop();
+      frontRightModule.stop();
+      backLeftModule.stop();
+      backRightModule.stop();
     }
   }
   public void periodic() {
@@ -93,5 +97,6 @@ public class Drive extends SubsystemBase {
      setTargetSpeed();
      setSwerveModuleStateArray();
      setModules();
+     moveModules();
   }
 }

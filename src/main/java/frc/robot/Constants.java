@@ -30,6 +30,6 @@ public final class Constants {
   }
   public static class DriveConstants {
     public static final double maxSpeed = 2.0; // In meters per second
-    public static final double deadBand = 0.06;
+    public static final double deadBand = 0.5;
   }
 } 
