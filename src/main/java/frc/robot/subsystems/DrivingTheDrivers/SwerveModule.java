@@ -44,6 +44,10 @@ public class SwerveModule {
         falconMotorDrive.setVoltage(currentDriveVoltage);
         canTurnMotor.setVoltage(currentTurnVoltage);
     }
+    public void stop() {
+        falconMotorDrive.setVoltage(0);
+        canTurnMotor.setVoltage(0);
+    }
     public void setState(SwerveModuleState moduleState) {
         state = moduleState;
     }

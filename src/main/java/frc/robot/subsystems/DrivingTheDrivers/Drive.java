@@ -9,7 +9,6 @@ import com.ctre.phoenix6.hardware.Pigeon2;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.PS5Controller;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.robot.Constants;
@@ -51,31 +50,48 @@ public class Drive extends SubsystemBase {
     roboSwerveKinematics = new SwerveDriveKinematics(Constants.SwerveModuleConstants.forwardLeftSwerve, Constants.SwerveModuleConstants.forwardRightSwerve, 
       Constants.SwerveModuleConstants.backRightSwerve, Constants.SwerveModuleConstants.backLeftSwerve); 
       // outputs in meters/second so we will be using this unit for everything now!
-
   }
-  public void periodic() {
+
+  public void setInput() {
     inputRotationSpeed = ps5Controller.getRightX();
     inputXSpeed = ps5Controller.getLeftX();
     inputYSpeed = ps5Controller.getLeftY();
+  }
 
-    rotationSpeedTarget = inputRotationSpeed * 2;
-    xMoveSpeedTarget = inputXSpeed * 2; // 2 represents the max speed in m/s
-    yMoveSpeedTarget = inputYSpeed * 2; 
+  public void setTargetSpeed() {
+    rotationSpeedTarget = inputRotationSpeed * Constants.DriveConstants.maxSpeed;
+    xMoveSpeedTarget = inputXSpeed * Constants.DriveConstants.maxSpeed;
+    yMoveSpeedTarget = inputYSpeed * Constants.DriveConstants.maxSpeed;
+  }
 
+  public void setSwerveModuleStateArray() {
     swerveModuleStatesArray = RobotContainer.drive.roboSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
-            xMoveSpeedTarget, yMoveSpeedTarget, rotationSpeedTarget, gyro.getRotation2d()));
+      xMoveSpeedTarget, yMoveSpeedTarget, rotationSpeedTarget, gyro.getRotation2d()));
+  }
 
+  public void setModules() {
     frontLeftModule.setState(swerveModuleStatesArray[0]);
     frontRightModule.setState(swerveModuleStatesArray[1]);
     backLeftModule.setState(swerveModuleStatesArray[2]);
     backRightModule.setState(swerveModuleStatesArray[3]);
+  }
 
-    if (Math.abs(inputRotationSpeed) > 0.06 || Math.abs(inputXSpeed) > 0.06 || Math.abs(inputYSpeed) > 0.06) {
-      System.out.println("this if statment is running");
+  public void moveModules() {
+    if (Math.abs(inputRotationSpeed) > Constants.DriveConstants.deadBand || Math.abs(inputXSpeed) > Constants.DriveConstants.deadBand || Math.abs(inputYSpeed) > Constants.DriveConstants.deadBand) {
+      System.out.println("calling .move on modules");
       frontLeftModule.move();
       frontRightModule.move();
       frontLeftModule.move();
       backRightModule.move();
+    } else {
+      frontLeftModule.stop();
     }
+  }
+  public void periodic() {
+
+     setInput();
+     setTargetSpeed();
+     setSwerveModuleStateArray();
+     setModules();
   }
 }
