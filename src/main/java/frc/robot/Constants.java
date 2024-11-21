@@ -23,10 +23,10 @@ public final class Constants {
 
   }
   public static class SwerveModuleConstants {
-  public static final Translation2d forwardRightSwerve = new Translation2d(0.301625, 0.301625); 
+  public static final Translation2d forwardRightSwerve = new Translation2d(0.301625, -0.301625); 
   public static final Translation2d forwardLeftSwerve = new Translation2d(0.301625, 0.301625);
-  public static final Translation2d backRightSwerve = new Translation2d(0.301625, 0.301625);
-  public static final Translation2d backLeftSwerve = new Translation2d(0.301625, 0.301625); 
+  public static final Translation2d backRightSwerve = new Translation2d(-0.301625, -0.301625);
+  public static final Translation2d backLeftSwerve = new Translation2d(-0.301625, 0.301625); 
   }
   public static class DriveConstants {
     public static final double maxSpeed = 2.0; // In meters per second

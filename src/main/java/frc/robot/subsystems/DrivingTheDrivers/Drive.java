@@ -6,6 +6,7 @@ package frc.robot.subsystems.DrivingTheDrivers;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -59,12 +60,12 @@ public class Drive extends SubsystemBase {
   }
 
   public void setTargetSpeed() {
-    rotationSpeedTarget = inputRotationSpeed * Constants.DriveConstants.maxSpeed;
+    rotationSpeedTarget = inputRotationSpeed * Constants.DriveConstants.maxSpeed; //change to rotation speed
     xMoveSpeedTarget = inputXSpeed * Constants.DriveConstants.maxSpeed;
     yMoveSpeedTarget = inputYSpeed * Constants.DriveConstants.maxSpeed;
   }
 
-  public void setSwerveModuleStateArray() {
+  public void setSwerveModuleStateArray() { //this will work but why
     swerveModuleStatesArray = RobotContainer.drive.roboSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
       xMoveSpeedTarget, yMoveSpeedTarget, rotationSpeedTarget, gyro.getRotation2d()));
   }
