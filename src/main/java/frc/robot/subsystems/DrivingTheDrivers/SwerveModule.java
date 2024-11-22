@@ -15,8 +15,8 @@ public class SwerveModule {
     private PIDController RotationPID;
     private PIDController DrivePID;
     private CANcoder canCoder;
-    private double currentDriveVoltage;
-    private double currentTurnVoltage;
+    private double driveVoltage;
+    private double turnVoltage;
     private SwerveModuleState state;
     
 
@@ -33,22 +33,17 @@ public class SwerveModule {
         DrivePID  = new PIDController(0.5,0,0); //placeholder values for PID
     }
 
-    public void move() {
+    public void move() { //I think abe said that some varriables in here dont need to be fore the class but just for here better
         
         
-        currentDriveVoltage = DrivePID.calculate(currentDriveVoltage, state.speedMetersPerSecond); //change
-        currentTurnVoltage = RotationPID.calculate(canCoder.getPosition().getValue(), state.angle.getDegrees()); // This one needed .getDegrees() because swervemodulestates stores a rotation 2d no degrees but I did some snooping in the class and found this.
-        // TODO: Tune w/ voltage to get an output that is in voltages so we can put it in the move thing
+        driveVoltage = DrivePID.calculate(driveVoltage, state.speedMetersPerSecond); //TODO: currentDriveVoltage needs to be replaced with current speed cant mismathc units opps
+        turnVoltage = RotationPID.calculate(canCoder.getPosition().getValue(), state.angle.getDegrees());/*Flip I think canCoder.getPosition().getValue() is in rotations not deggres we may need to change*/ // This one needed .getDegrees() because swervemodulestates stores a rotation 2d no degrees but I did some snooping in the class and found this.
+        // TODO: Tune PID to get an output that is in voltages so we can put it in the move thing
 
-        falconMotorDrive.setVoltage(currentDriveVoltage);
-        canTurnMotor.setVoltage(currentTurnVoltage);
+        falconMotorDrive.setVoltage(driveVoltage);
+        canTurnMotor.setVoltage(turnVoltage);
     }
-    public void stop() {
-        currentDriveVoltage = 0.0;
-        currentTurnVoltage = 0.0;
-        falconMotorDrive.setVoltage(0);
-        canTurnMotor.setVoltage(0);
-    }
+    
     public void setState(SwerveModuleState moduleState) {
         state = moduleState;
     }

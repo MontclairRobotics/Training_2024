@@ -30,17 +30,16 @@ public class Drive extends SubsystemBase {
   private double rotationSpeedTarget; 
   private double yMoveSpeedTarget;
   private Pigeon2 gyro;
-  private double inputRotationSpeed;
-  private double inputXSpeed;
-  private double inputYSpeed;
+  private double inputRotationSpeedWithDeadband;
+  private double inputXSpeedWithDeadBand;
+  private double inputYSpeedWithDeadBand;
   
 
   
   public Drive() {
 
-
-    frontLeftModule = new SwerveModule(10,1,5); //The values are the IDs for the motors
-    frontRightModule = new SwerveModule(11,2,6); // creates the swerve module objects
+    frontLeftModule = new SwerveModule(10,1,5); //Creates the swerve module objects
+    frontRightModule = new SwerveModule(11,2,6); //The values are the IDs for the motors
     backLeftModule = new SwerveModule(9,3,7);
     backRightModule = new SwerveModule(12,4,8);
 
@@ -53,21 +52,21 @@ public class Drive extends SubsystemBase {
       // outputs in meters/second so we will be using this unit for everything now!
   }
 
-  public void setInput() {
-    inputRotationSpeed = ps5Controller.getRightX();
-    inputXSpeed = ps5Controller.getLeftX();
-    inputYSpeed = ps5Controller.getLeftY();
+  public void setInput() { //TODO: at some point change this to a defalt command. (multible things need to be commands) A defalt comand will do the running all the time thing exept you can interupt it w/ another command
+      inputRotationSpeedWithDeadband= MathUtil.applyDeadband(ps5Controller.getRightX(), Constants.DriveConstants.deadBand);  //TODO: find the inverted joystick axis in the controller tab of Driverstation
+      inputXSpeedWithDeadBand = MathUtil.applyDeadband(ps5Controller.getLeftX(), Constants.DriveConstants.deadBand);
+      inputYSpeedWithDeadBand = MathUtil.applyDeadband(ps5Controller.getLeftY(), Constants.DriveConstants.deadBand);
   }
 
-  public void setTargetSpeed() {
-    rotationSpeedTarget = inputRotationSpeed * Constants.DriveConstants.maxSpeed; //change to rotation speed
-    xMoveSpeedTarget = inputXSpeed * Constants.DriveConstants.maxSpeed;
-    yMoveSpeedTarget = inputYSpeed * Constants.DriveConstants.maxSpeed;
+  public void setTargetSpeed() { //TODO: maybe cube input
+    rotationSpeedTarget = inputRotationSpeedWithDeadband * Constants.DriveConstants.maxRotationSpeed;
+    xMoveSpeedTarget = inputXSpeedWithDeadBand * Constants.DriveConstants.maxDriveSpeed;
+    yMoveSpeedTarget = inputYSpeedWithDeadBand * Constants.DriveConstants.maxDriveSpeed;
   }
 
-  public void setSwerveModuleStateArray() { //this will work but why
+  public void setSwerveModuleStateArray() { //this will work but why TODO: make this nolonger an instanance variable or somthing idk Abe said it would look better as somthing else
     swerveModuleStatesArray = RobotContainer.drive.roboSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
-      xMoveSpeedTarget, yMoveSpeedTarget, rotationSpeedTarget, gyro.getRotation2d()));
+      xMoveSpeedTarget, yMoveSpeedTarget, rotationSpeedTarget, gyro.getRotation2d())); //TODO: this assums we will always use field reletive maybe in futer we will want a switch
   }
 
   public void setModules() {
@@ -78,20 +77,13 @@ public class Drive extends SubsystemBase {
   }
 
   public void moveModules() {
-    if (Math.abs(inputRotationSpeed) > Constants.DriveConstants.deadBand || Math.abs(inputXSpeed) > Constants.DriveConstants.deadBand || Math.abs(inputYSpeed) > Constants.DriveConstants.deadBand) {
-      System.out.println("calling .move on modules");
+      System.out.println("calling .move on modules"); //Remember the deadband is before this now so there is no such thing as .stop and it will stop because we called .move with 0s
       frontLeftModule.move();
       frontRightModule.move();
       frontLeftModule.move();
       backRightModule.move();
-    } else {
-      System.out.println("calling .stop on modules");
-      frontLeftModule.stop();
-      frontRightModule.stop();
-      backLeftModule.stop();
-      backRightModule.stop();
-    }
   }
+
   public void periodic() {
 
      setInput();
