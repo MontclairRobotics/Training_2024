@@ -36,7 +36,7 @@ public class SwerveModule {
     public void move() {
         
         
-        currentDriveVoltage = DrivePID.calculate(currentDriveVoltage, state.speedMetersPerSecond); 
+        currentDriveVoltage = DrivePID.calculate(currentDriveVoltage, state.speedMetersPerSecond); //change
         currentTurnVoltage = RotationPID.calculate(canCoder.getPosition().getValue(), state.angle.getDegrees()); // This one needed .getDegrees() because swervemodulestates stores a rotation 2d no degrees but I did some snooping in the class and found this.
         // TODO: Tune w/ voltage to get an output that is in voltages so we can put it in the move thing
 
