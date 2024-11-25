@@ -49,16 +49,16 @@ public class Drive extends SubsystemBase {
 
     roboSwerveKinematics = new SwerveDriveKinematics(Constants.SwerveModuleConstants.forwardLeftSwerve, Constants.SwerveModuleConstants.forwardRightSwerve, 
       Constants.SwerveModuleConstants.backRightSwerve, Constants.SwerveModuleConstants.backLeftSwerve); 
-      // outputs in meters/second so we will be using this unit for everything now!
+      // outputs in meters/second so we will be using this unit for everything now! We may or may not want to change to rotations or somthing idk TODO: Decide what units everythings going to be
   }
 
   public void setInput() { //TODO: at some point change this to a defalt command. (multible things need to be commands) A defalt comand will do the running all the time thing exept you can interupt it w/ another command
-      inputRotationSpeedWithDeadband= MathUtil.applyDeadband(ps5Controller.getRightX(), Constants.DriveConstants.deadBand);  //TODO: find the inverted joystick axis in the controller tab of Driverstation
+      inputRotationSpeedWithDeadband = MathUtil.applyDeadband(ps5Controller.getRightX(), Constants.DriveConstants.deadBand);  //TODO: find the inverted joystick axis in the controller tab of Driverstation
       inputXSpeedWithDeadBand = MathUtil.applyDeadband(ps5Controller.getLeftX(), Constants.DriveConstants.deadBand);
       inputYSpeedWithDeadBand = MathUtil.applyDeadband(ps5Controller.getLeftY(), Constants.DriveConstants.deadBand);
   }
 
-  public void setTargetSpeed() { //TODO: maybe cube input
+  public void setTargetSpeed() { //TODO: maybe square or cube input
     rotationSpeedTarget = inputRotationSpeedWithDeadband * Constants.DriveConstants.maxRotationSpeed;
     xMoveSpeedTarget = inputXSpeedWithDeadBand * Constants.DriveConstants.maxDriveSpeed;
     yMoveSpeedTarget = inputYSpeedWithDeadBand * Constants.DriveConstants.maxDriveSpeed;
@@ -66,7 +66,7 @@ public class Drive extends SubsystemBase {
 
   public void setSwerveModuleStateArray() { //this will work but why TODO: make this nolonger an instanance variable or somthing idk Abe said it would look better as somthing else
     swerveModuleStatesArray = RobotContainer.drive.roboSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
-      xMoveSpeedTarget, yMoveSpeedTarget, rotationSpeedTarget, gyro.getRotation2d())); //TODO: this assums we will always use field reletive maybe in futer we will want a switch
+      xMoveSpeedTarget, yMoveSpeedTarget, rotationSpeedTarget, gyro.getRotation2d())); //TODO: this assumes we will always use field reletive maybe in futer we will want a switch
   }
 
   public void setModules() {
@@ -84,7 +84,7 @@ public class Drive extends SubsystemBase {
       backRightModule.move();
   }
 
-  public void periodic() {
+  public void periodic() { //TODO: use .optimize at some point
 
      setInput();
      setTargetSpeed();

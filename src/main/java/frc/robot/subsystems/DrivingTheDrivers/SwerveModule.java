@@ -22,12 +22,11 @@ public class SwerveModule {
 
     
     public SwerveModule(int canCoderID, int canTurnMotorID, int falconMotorDriveID) {
-
+        
 
         canCoder = new CANcoder(canCoderID,"rio"); //canbus must be named "rio"
         canTurnMotor = new CANSparkMax(canTurnMotorID, MotorType.kBrushless);
         falconMotorDrive = new TalonFX(falconMotorDriveID);
-
 
         RotationPID = new PIDController(0.5,0,0); //placeholder values for PID
         DrivePID  = new PIDController(0.5,0,0); //placeholder values for PID
@@ -36,8 +35,8 @@ public class SwerveModule {
     public void move() { //I think abe said that some varriables in here dont need to be fore the class but just for here better
         
         
-        driveVoltage = DrivePID.calculate(driveVoltage, state.speedMetersPerSecond); //TODO: currentDriveVoltage needs to be replaced with current speed cant mismathc units opps
-        turnVoltage = RotationPID.calculate(canCoder.getPosition().getValue(), state.angle.getDegrees());/*Flip I think canCoder.getPosition().getValue() is in rotations not deggres we may need to change*/ // This one needed .getDegrees() because swervemodulestates stores a rotation 2d no degrees but I did some snooping in the class and found this.
+        driveVoltage = DrivePID.calculate(findCurrentSpeedHerePlease, state.speedMetersPerSecond); //TODO: currentDriveVoltage needs to be replaced with current speed cant mismatch units opps
+        turnVoltage = RotationPID.calculate(canCoder.getPosition().getValue()/360, state.angle.getDegrees());/*canCoder.getPosition().getValue() is in rotations not deggres so i devided by 360 although we proboby want to change all our units later*/ // This one needed .getDegrees() because swervemodulestates stores a rotation 2d no degrees but I did some snooping in the class and found this.
         // TODO: Tune PID to get an output that is in voltages so we can put it in the move thing
 
         falconMotorDrive.setVoltage(driveVoltage);
@@ -47,5 +46,5 @@ public class SwerveModule {
     public void setState(SwerveModuleState moduleState) {
         state = moduleState;
     }
-
+    
 }
