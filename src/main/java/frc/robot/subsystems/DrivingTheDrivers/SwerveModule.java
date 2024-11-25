@@ -38,7 +38,7 @@ public class SwerveModule {
     public void move() { //I think abe said that some varriables in here dont need to be fore the class but just for here better
         
         
-        driveVoltage = DrivePID.calculate(falconMotorEncoder.getVelocity(), state.speedMetersPerSecond); //TODO: currentDriveVoltage needs to be replaced with current speed cant mismatch units opps
+        driveVoltage = DrivePID.calculate(falconMotorEncoder.getVelocity().getValueAsDouble(), state.speedMetersPerSecond);
         turnVoltage = RotationPID.calculate(canSparkCoder.getPosition().getValue()/360, state.angle.getDegrees());/*canSparkCoder.getPosition().getValue() is in rotations not deggres so i devided by 360 although we proboby want to change all our units later*/ // This one needed .getDegrees() because swervemodulestates stores a rotation 2d no degrees but I did some snooping in the class and found this.
         // TODO: Tune PID to get an output that is in voltages so we can put it in the move thing
 
@@ -49,5 +49,5 @@ public class SwerveModule {
     public void setState(SwerveModuleState moduleState) {
         state = moduleState;
     }
-    
+
 }
