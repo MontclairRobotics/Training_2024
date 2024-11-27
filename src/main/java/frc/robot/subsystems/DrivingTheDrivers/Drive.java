@@ -26,7 +26,7 @@ public class Drive extends SubsystemBase {
   public SwerveModuleState[] swerveModuleStatesArray; 
   public SwerveDriveKinematics roboSwerveKinematics;
   private CommandPS5Controller ps5Controller;
-  private double xMoveSpeedTarget;
+  public double xMoveSpeedTarget;
   private double rotationSpeedTarget; 
   private double yMoveSpeedTarget;
   private Pigeon2 gyro;
@@ -81,14 +81,17 @@ public class Drive extends SubsystemBase {
       frontRightModule.move();
       frontLeftModule.move();
       backRightModule.move();
+
   }
+ 
 
   public void periodic() { //TODO: use .optimize at some point
-
+    
      setInput();
      setTargetSpeed();
      setSwerveModuleStateArray();
      setModules();
      moveModules();
+
   }
 }
