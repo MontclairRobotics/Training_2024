@@ -31,6 +31,10 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     
     Shuffleboard.getTab("driver").addDouble("targetXDrive", ()-> RobotContainer.drive.xMoveSpeedTarget);
+    Shuffleboard.getTab("driver").addDouble("targetYDrive", ()-> RobotContainer.drive.yMoveSpeedTarget);
+    Shuffleboard.getTab("driver").addDouble("targetRot", ()-> RobotContainer.drive.rotationSpeedTarget);
+
+
   }
 
   /**

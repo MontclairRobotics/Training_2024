@@ -25,14 +25,16 @@ public class Drive extends SubsystemBase {
 
   public SwerveModuleState[] swerveModuleStatesArray; 
   public SwerveDriveKinematics roboSwerveKinematics;
-  private CommandPS5Controller ps5Controller;
-  public double xMoveSpeedTarget;
-  private double rotationSpeedTarget; 
-  private double yMoveSpeedTarget;
   private Pigeon2 gyro;
-  private double inputRotationSpeedWithDeadband;
+  private CommandPS5Controller ps5Controller;
+
+  public double xMoveSpeedTarget;
+  public double yMoveSpeedTarget;
+  public double rotationSpeedTarget; 
+
   private double inputXSpeedWithDeadBand;
   private double inputYSpeedWithDeadBand;
+  private double inputRotationSpeedWithDeadband;
   
 
   
