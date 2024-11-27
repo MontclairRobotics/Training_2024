@@ -33,5 +33,6 @@ public final class Constants {
     public static final double maxDriveSpeed = 2.0; // In meters per second
     public static final double maxRotationSpeed = 10; //In degrees per second
     public static final double deadBand = 0.5;
+    public static final double driveEncoderRotationToMetersOfTheWheel = 0.407;
   }
 } 

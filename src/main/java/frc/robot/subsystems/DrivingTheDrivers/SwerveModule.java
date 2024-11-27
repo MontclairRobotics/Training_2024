@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import frc.robot.Constants;
 
 public class SwerveModule {
 
@@ -38,8 +39,8 @@ public class SwerveModule {
     public void move() { //I think abe said that some varriables in here dont need to be fore the class but just for here better
         
         
-        driveVoltage = DrivePID.calculate(falconMotorEncoder.getVelocity().getValueAsDouble(), state.speedMetersPerSecond);
-        turnVoltage = RotationPID.calculate(canSparkCoder.getPosition().getValue()/360, state.angle.getDegrees());/*canSparkCoder.getPosition().getValue() is in rotations not deggres so i devided by 360 although we proboby want to change all our units later*/ // This one needed .getDegrees() because swervemodulestates stores a rotation 2d no degrees but I did some snooping in the class and found this.
+        driveVoltage = DrivePID.calculate(falconMotorEncoder.getVelocity().getValueAsDouble()*Constants.DriveConstants.driveEncoderRotationToMetersOfTheWheel, state.speedMetersPerSecond);
+        turnVoltage = RotationPID.calculate(canSparkCoder.getPosition().getValue()*360, state.angle.getDegrees());/*canSparkCoder.getPosition().getValue() is in rotations not deggres so i devided by 360 although we proboby want to change all our units later*/ // This one needed .getDegrees() because swervemodulestates stores a rotation 2d no degrees but I did some snooping in the class and found this.
         // TODO: Tune PID to get an output that is in voltages so we can put it in the move thing
 
         falconMotorDrive.setVoltage(driveVoltage);
