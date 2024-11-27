@@ -77,7 +77,6 @@ public class Drive extends SubsystemBase {
   }
 
   public void moveModules() {
-      System.out.println("calling .move on modules"); //Remember the deadband is before this now so there is no such thing as .stop and it will stop because we called .move with 0s
       frontLeftModule.move();
       frontRightModule.move();
       frontLeftModule.move();
