@@ -28,25 +28,21 @@ public class SwerveModule {
         canTurnMotor = new CANSparkMax(canTurnMotorID, MotorType.kBrushless);
         falconMotorDrive = new TalonFX(falconMotorDriveID);
         
-        RotationPID = new PIDController(0.5,0,0); //placeholder values for PID
-        DrivePID  = new PIDController(0.5,0,0); //placeholder values for PID
+        RotationPID = new PIDController(0.3,0,0); //placeholder values for PID
+        DrivePID  = new PIDController(0.3,0,0); //placeholder values for PID
 
-        RotationPID.enableContinuousInput(-180, 180);
+        RotationPID.enableContinuousInput(-Math.PI, Math.PI);
     }
 
-    public void move() { //I think abe said that some varriables in here dont need to be fore the class but just for here better
+    public void setStateAndMove(SwerveModuleState moduleState) { //I think abe said that some varriables in here dont need to be fore the class but just for here better
+
+        state = moduleState;
         
-        
-        driveVoltage = DrivePID.calculate(falconMotorDrive.getVelocity().getValueAsDouble()*Constants.DriveConstants.driveEncoderRotationToMetersOfTheWheel, state.speedMetersPerSecond);
-        turnVoltage = RotationPID.calculate(canSparkCoder.getPosition().getValue()*360, state.angle.getDegrees());/*canSparkCoder.getPosition().getValue() is in rotations not deggres so i devided by 360 although we proboby want to change all our units later*/ // This one needed .getDegrees() because swervemodulestates stores a rotation 2d no degrees but I did some snooping in the class and found this.
+        driveVoltage = DrivePID.calculate(falconMotorDrive.getVelocity().getValueAsDouble()*Constants.DriveConstants.DRIVE_ENCODER_ROTATION_TO_METERS_OF_THE_WHEEL_RATIO, state.speedMetersPerSecond);
+        turnVoltage = RotationPID.calculate(canSparkCoder.getPosition().getValue()*2*Math.PI, state.angle.getRadians());/*canSparkCoder.getPosition().getValue() is in rotations not radians so multiply by 2Pi*/ // This one needed .getRadians() because swervemodulestates stores a rotation 2d
         // TODO: Tune PID to get an output that is in voltages so we can put it in the move thing
 
         falconMotorDrive.setVoltage(driveVoltage);
         canTurnMotor.setVoltage(turnVoltage);
     }
-    
-    public void setState(SwerveModuleState moduleState) {
-        state = moduleState;
-    }
-
 }

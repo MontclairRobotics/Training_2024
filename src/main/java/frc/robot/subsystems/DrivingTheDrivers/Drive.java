@@ -26,7 +26,6 @@ public class Drive extends SubsystemBase {
   public SwerveModuleState[] swerveModuleStatesArray; 
   public SwerveDriveKinematics roboSwerveKinematics;
   private Pigeon2 gyro;
-  private CommandPS5Controller ps5Controller;
 
   public double xMoveSpeedTarget;
   public double yMoveSpeedTarget;
@@ -35,7 +34,6 @@ public class Drive extends SubsystemBase {
   private double inputXSpeedWithDeadBand;
   private double inputYSpeedWithDeadBand;
   private double inputRotationSpeedWithDeadband;
-  
 
   
   public Drive() {
@@ -45,55 +43,38 @@ public class Drive extends SubsystemBase {
     backLeftModule = new SwerveModule(9,3,7);
     backRightModule = new SwerveModule(12,4,8);
 
-    ps5Controller = new CommandPS5Controller(0);
-
     gyro = new Pigeon2(25, "rio");
 
-    roboSwerveKinematics = new SwerveDriveKinematics(Constants.SwerveModuleConstants.forwardLeftSwerve, Constants.SwerveModuleConstants.forwardRightSwerve, 
-      Constants.SwerveModuleConstants.backLeftSwerve, Constants.SwerveModuleConstants.backRightSwerve); 
-      // outputs in meters/second so we will be using this unit for everything now! We may or may not want to change to rotations or somthing idk TODO: Decide what units everythings going to be
+    roboSwerveKinematics = new SwerveDriveKinematics(Constants.SwerveModuleConstants.FRONT_LEFT_SWERVE_POSITION, Constants.SwerveModuleConstants.FRONT_RIGHT_SWERVE_POSITION, 
+      Constants.SwerveModuleConstants.BACK_LEFT_SWERVE_POSITION, Constants.SwerveModuleConstants.BACK_RIGHT_SWERVE_POSITION); 
+      // outputs in meters/second so we will be using this unit for everything now! Also we now use radians
   }
 
-  public void setInput() { //TODO: at some point change this to a defalt command. (multible things need to be commands) A defalt comand will do the running all the time thing exept you can interupt it w/ another command
-      inputRotationSpeedWithDeadband = MathUtil.applyDeadband(ps5Controller.getRightX(), Constants.DriveConstants.deadBand);  //TODO: find the inverted joystick axis in the controller tab of Driverstation
-      inputXSpeedWithDeadBand = MathUtil.applyDeadband(ps5Controller.getLeftX(), Constants.DriveConstants.deadBand);
-      inputYSpeedWithDeadBand = MathUtil.applyDeadband(ps5Controller.getLeftY(), Constants.DriveConstants.deadBand);
-  }
+  public void setTargetSpeed(CommandPS5Controller controller) { //This is now called as a defalt command in robot container (thats why it looks like this now) (multible other things need to be commands I think) 
 
-  public void setTargetSpeed() { //TODO: maybe square or cube input
-    rotationSpeedTarget = inputRotationSpeedWithDeadband * Constants.DriveConstants.maxRotationSpeed;
-    xMoveSpeedTarget = inputXSpeedWithDeadBand * Constants.DriveConstants.maxDriveSpeed;
-    yMoveSpeedTarget = inputYSpeedWithDeadBand * Constants.DriveConstants.maxDriveSpeed;
+    inputRotationSpeedWithDeadband = MathUtil.applyDeadband(controller.getRightX(), Constants.DriveConstants.CONTROLLER_DEAD_BAND);  //there doesnt seem to be any inverted axis of the controlers but keep an eye out
+    inputXSpeedWithDeadBand = MathUtil.applyDeadband(controller.getLeftX(), Constants.DriveConstants.CONTROLLER_DEAD_BAND);
+    inputYSpeedWithDeadBand = MathUtil.applyDeadband(controller.getLeftY(), Constants.DriveConstants.CONTROLLER_DEAD_BAND);
+    
+    rotationSpeedTarget = inputRotationSpeedWithDeadband * Constants.DriveConstants.MAX_ROTATION_SPEED;
+    xMoveSpeedTarget = inputXSpeedWithDeadBand * Constants.DriveConstants.MAX_DRIVE_SPEED;
+    yMoveSpeedTarget = inputYSpeedWithDeadBand * Constants.DriveConstants.MAX_DRIVE_SPEED; //TODO: maybe square or cube input
   }
 
   public void setSwerveModuleStateArray() { //this will work but why TODO: make this nolonger an instanance variable or somthing idk Abe said it would look better as somthing else
     swerveModuleStatesArray = RobotContainer.drive.roboSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
-      xMoveSpeedTarget, yMoveSpeedTarget, rotationSpeedTarget, gyro.getRotation2d())); //TODO: this assumes we will always use field reletive maybe in futer we will want a switch
+      xMoveSpeedTarget, yMoveSpeedTarget, rotationSpeedTarget, gyro.getRotation2d())); //TODO: this assumes we will always use field reletive maybe in the future we will want a switch
   }
 
-  public void setModules() {
-    frontLeftModule.setState(swerveModuleStatesArray[0]);
-    frontRightModule.setState(swerveModuleStatesArray[1]);
-    backLeftModule.setState(swerveModuleStatesArray[2]);
-    backRightModule.setState(swerveModuleStatesArray[3]);
+  public void setAndMoveModules() {
+      frontLeftModule.setStateAndMove(swerveModuleStatesArray[0]);
+      frontRightModule.setStateAndMove(swerveModuleStatesArray[1]);
+      frontLeftModule.setStateAndMove(swerveModuleStatesArray[2]);
+      backRightModule.setStateAndMove(swerveModuleStatesArray[3]);
   }
-
-  public void moveModules() {
-      frontLeftModule.move();
-      frontRightModule.move();
-      frontLeftModule.move();
-      backRightModule.move();
-
-  }
- 
-
+  
   public void periodic() { //TODO: use .optimize at some point
-    
-     setInput();
-     setTargetSpeed();
-     setSwerveModuleStateArray();
-     setModules();
-     moveModules();
-
+     setSwerveModuleStateArray(); //setTargetSpeed is not here because its a defalt command in the robot container
+     setAndMoveModules();
   }
 }
