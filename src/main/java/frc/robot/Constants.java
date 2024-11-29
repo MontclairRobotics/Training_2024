@@ -18,7 +18,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
-    
+    public static final double CONTROLLER_DEAD_BAND = 0.5;
+
   }
   public static class SwerveModuleConstants {
     public static final Translation2d FRONT_LEFT_SWERVE_POSITION = new Translation2d(0.301625, 0.301625);
@@ -30,7 +31,7 @@ public final class Constants {
   public static class DriveConstants {
     public static final double MAX_DRIVE_SPEED = 2.0; // In meters per second
     public static final double MAX_ROTATION_SPEED = Math.PI/20; //RADIANS
-    public static final double CONTROLLER_DEAD_BAND = 0.5;
     public static final double DRIVE_ENCODER_ROTATION_TO_METERS_OF_THE_WHEEL_RATIO = 0.407;
+    public static final double CAN_CODER_OFF_SET = 0.0; //TODO: find offset
   }
 } 
