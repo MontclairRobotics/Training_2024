@@ -6,6 +6,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.Constants;
 
@@ -18,8 +19,7 @@ public class SwerveModule {
     private CANcoder canSparkCoder;
     private double driveVoltage;
     private double turnVoltage;
-    private SwerveModuleState state;    
-
+    
     
     public SwerveModule(int canCoderID, int canTurnMotorID, int falconMotorDriveID) {
         
@@ -36,10 +36,10 @@ public class SwerveModule {
 
     public void setStateAndMove(SwerveModuleState moduleState) { //I think abe said that some varriables in here dont need to be fore the class but just for here better
 
-        state = moduleState;
+        SwerveModuleState optimizedState = SwerveModuleState.optimize(moduleState, Rotation2d.fromRadians(canSparkCoder.getPosition().getValue()*2*Math.PI)); //optimizes so that will turn in the closest direction to get to target
         
-        driveVoltage = DrivePID.calculate(falconMotorDrive.getVelocity().getValueAsDouble()*Constants.DriveConstants.DRIVE_ENCODER_ROTATION_TO_METERS_OF_THE_WHEEL_RATIO, state.speedMetersPerSecond);
-        turnVoltage = RotationPID.calculate(canSparkCoder.getPosition().getValue()*2*Math.PI, state.angle.getRadians());/*canSparkCoder.getPosition().getValue() is in rotations not radians so multiply by 2Pi*/ // This one needed .getRadians() because swervemodulestates stores a rotation 2d
+        driveVoltage = DrivePID.calculate(falconMotorDrive.getVelocity().getValueAsDouble()*Constants.DriveConstants.DRIVE_ENCODER_ROTATION_TO_METERS_OF_THE_WHEEL_RATIO, optimizedState.speedMetersPerSecond);
+        turnVoltage = RotationPID.calculate(canSparkCoder.getPosition().getValue()*2*Math.PI, optimizedState.angle.getRadians());/*canSparkCoder.getPosition().getValue() is in rotations not radians so multiply by 2Pi (aka 360 degrees but we use radians)*/ // This one needed .getRadians() because swervemodulestates stores a rotation 2d
         // TODO: Tune PID to get an output that is in voltages so we can put it in the move thing
 
         falconMotorDrive.setVoltage(driveVoltage);
