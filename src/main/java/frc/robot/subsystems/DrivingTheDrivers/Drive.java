@@ -38,16 +38,16 @@ public class Drive extends SubsystemBase {
     backLeftModule = new SwerveModule(9,3,7);
     backRightModule = new SwerveModule(12,4,8);
 
-    gyro = new Pigeon2(25, "rio");
+    gyro = new Pigeon2(25, "rio"); //gyroscope tells us what direction the whole robot is facing
 
     roboSwerveKinematics = new SwerveDriveKinematics(Constants.SwerveModuleConstants.FRONT_LEFT_SWERVE_POSITION, Constants.SwerveModuleConstants.FRONT_RIGHT_SWERVE_POSITION, 
       Constants.SwerveModuleConstants.BACK_LEFT_SWERVE_POSITION, Constants.SwerveModuleConstants.BACK_RIGHT_SWERVE_POSITION); 
-      // outputs in meters/second so we will be using this unit for everything now! Also we now use radians
+      //A helper class used later that does math with our for module positions. Uses meters our unit for everything
   }
 
-  public void setTargetSpeed(CommandPS5Controller controller) { //This is now called as a defalt command in robot container (thats why it looks like this now) (multible other things need to be commands I think) 
+  public void setTargetSpeed(CommandPS5Controller controller) { //This is now called as a defalt command in robot container (thats why it looks like this now)
 
-    double inputRotationSpeedWithDeadband = MathUtil.applyDeadband(controller.getRightX(), Constants.OperatorConstants.CONTROLLER_DEAD_BAND);  //there doesnt seem to be any inverted axis of the controlers but keep an eye out
+    double inputRotationSpeedWithDeadband = MathUtil.applyDeadband(controller.getRightX(), Constants.OperatorConstants.CONTROLLER_DEAD_BAND);  //this does not seem to be the case for now however one axis of a controller may be inverted
     double inputXSpeedWithDeadBand = MathUtil.applyDeadband(controller.getLeftX(), Constants.OperatorConstants.CONTROLLER_DEAD_BAND);
     double inputYSpeedWithDeadBand = MathUtil.applyDeadband(controller.getLeftY(), Constants.OperatorConstants.CONTROLLER_DEAD_BAND);
     
@@ -56,7 +56,7 @@ public class Drive extends SubsystemBase {
     yMoveSpeedTarget = Math.pow(inputYSpeedWithDeadBand, 3) * Constants.DriveConstants.MAX_DRIVE_SPEED;
   }
   
-  public void periodic() {
+  public void periodic() { //periodic runs constantly
     SwerveModuleState[] swerveModuleStatesArray = RobotContainer.drive.roboSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
       xMoveSpeedTarget, yMoveSpeedTarget, rotationSpeedTarget, gyro.getRotation2d())); //TODO: this assumes we will always use field reletive maybe in the future we will want a switch
   
