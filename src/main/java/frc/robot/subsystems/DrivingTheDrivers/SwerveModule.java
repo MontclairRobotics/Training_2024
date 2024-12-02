@@ -29,22 +29,31 @@ public class SwerveModule {
         canTurnMotor = new CANSparkMax(canTurnMotorID, MotorType.kBrushless);
         falconMotorDrive = new TalonFX(falconMotorDriveID);
         
-        RotationPID = new PIDController(0.3,0,0); //placeholder values for PID
-        DrivePID  = new PIDController(0.3,0,0); //placeholder values for PID
+        RotationPID = new PIDController(0.2,0,0); //placeholder values for PID
+        DrivePID  = new PIDController(0.2,0,0); //placeholder values for PID
 
         RotationPID.enableContinuousInput(-Math.PI, Math.PI);
+        // This is needed because its a circle if it gets to -180 thats the same as +180
         this.canCoderOffSet = canCoderOffSet;
     }
 
-    public void setStateAndMove(SwerveModuleState moduleState) { //I think abe said that some varriables in here dont need to be fore the class but just for here better
+    public void setStateAndMove(SwerveModuleState moduleState) {
         
-        SwerveModuleState optimizedState = SwerveModuleState.optimize(moduleState, Rotation2d.fromRadians((canCoder.getPosition().getValue()*2*Math.PI) - canCoderOffSet)); //optimizes so that will turn in the closest direction to get to target
-        
-        driveVoltage = DrivePID.calculate(falconMotorDrive.getVelocity().getValueAsDouble()*Constants.DriveConstants.DRIVE_ENCODER_ROTATION_TO_METERS_OF_THE_WHEEL_RATIO, optimizedState.speedMetersPerSecond);
-        turnVoltage = RotationPID.calculate((canCoder.getPosition().getValue()*2*Math.PI) - canCoderOffSet, optimizedState.angle.getRadians());/*canSparkCoder.getPosition().getValue() is in rotations not radians so multiply by 2Pi (aka 360 degrees but we use radians)*/ // This one needed .getRadians() because swervemodulestates stores a rotation 2d
-        // TODO: Tune PID to get an output that is in voltages so we can put it in the move thing
+        double currentVolocity = falconMotorDrive.getVelocity().getValueAsDouble()*Constants.DriveConstants.DRIVE_ENCODER_ROTATION_TO_METERS_OF_THE_WHEEL_RATIO;
+        //would give us value thats how many turns of the encoder but we want it in meters/second so we multiply by the constant
+        double currentRotation = canCoder.getPosition().getValue()*2*Math.PI - canCoderOffSet;
+        // canSparkCoder.getPosition().getValue() is in rotations not radians so multiply by 2Pi (aka 360 degrees but we use radians). Then because the cancoder is an absalute encoder there is an offset
 
-        falconMotorDrive.setVoltage(driveVoltage);
+        SwerveModuleState optimizedState = SwerveModuleState.optimize(moduleState, Rotation2d.fromRadians((currentRotation))); 
+        //optimizes so that will turn in the closest direction to get to target
+
+        // TODO: Tune PID to get an output that is in voltages so we can put it in the move thing
+        driveVoltage = DrivePID.calculate(currentVolocity, optimizedState.speedMetersPerSecond); //set Drive volatage using PID(current volocity, target volocity)
+        
+        turnVoltage = RotationPID.calculate((currentRotation), optimizedState.angle.getRadians()); //set turn volatage using PID(current rotarion, target rotation)
+        // .angle needed .getRadians() because swervemodulestates stores a rotation 2d
+
+        falconMotorDrive.setVoltage(driveVoltage); //tells the motors to move
         canTurnMotor.setVoltage(turnVoltage);
     }
 }
