@@ -29,8 +29,8 @@ public class SwerveModule {
         canTurnMotor = new CANSparkMax(canTurnMotorID, MotorType.kBrushless);
         falconMotorDrive = new TalonFX(falconMotorDriveID);
         
-        RotationPID = new PIDController(0.2,0,0); //placeholder values for PID
-        DrivePID  = new PIDController(0.2,0,0); //placeholder values for PID
+        RotationPID = new PIDController(0.4,0,0); //placeholder values for PID
+        DrivePID  = new PIDController(0.4,0,0); //placeholder values for PID
 
         RotationPID.enableContinuousInput(-Math.PI, Math.PI);
         // This is needed because its a circle if it gets to -180 thats the same as +180
