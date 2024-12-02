@@ -19,9 +19,10 @@ public class SwerveModule {
     private CANcoder canCoder;
     private double driveVoltage;
     private double turnVoltage;
+    private double canCoderOffSet;
     
     
-    public SwerveModule(int canCoderID, int canTurnMotorID, int falconMotorDriveID) {
+    public SwerveModule(int canCoderID, int canTurnMotorID, int falconMotorDriveID, double canCoderOffSet) {
         
         
         canCoder = new CANcoder(canCoderID,"rio"); //canbus must be named "rio"
@@ -32,14 +33,15 @@ public class SwerveModule {
         DrivePID  = new PIDController(0.3,0,0); //placeholder values for PID
 
         RotationPID.enableContinuousInput(-Math.PI, Math.PI);
+        this.canCoderOffSet = canCoderOffSet;
     }
 
     public void setStateAndMove(SwerveModuleState moduleState) { //I think abe said that some varriables in here dont need to be fore the class but just for here better
         
-        SwerveModuleState optimizedState = SwerveModuleState.optimize(moduleState, Rotation2d.fromRadians((canCoder.getPosition().getValue()*2*Math.PI)-Constants.DriveConstants.CAN_CODER_OFF_SET)); //optimizes so that will turn in the closest direction to get to target
+        SwerveModuleState optimizedState = SwerveModuleState.optimize(moduleState, Rotation2d.fromRadians((canCoder.getPosition().getValue()*2*Math.PI) - canCoderOffSet)); //optimizes so that will turn in the closest direction to get to target
         
         driveVoltage = DrivePID.calculate(falconMotorDrive.getVelocity().getValueAsDouble()*Constants.DriveConstants.DRIVE_ENCODER_ROTATION_TO_METERS_OF_THE_WHEEL_RATIO, optimizedState.speedMetersPerSecond);
-        turnVoltage = RotationPID.calculate((canCoder.getPosition().getValue()*2*Math.PI) - Constants.DriveConstants.CAN_CODER_OFF_SET, optimizedState.angle.getRadians());/*canSparkCoder.getPosition().getValue() is in rotations not radians so multiply by 2Pi (aka 360 degrees but we use radians)*/ // This one needed .getRadians() because swervemodulestates stores a rotation 2d
+        turnVoltage = RotationPID.calculate((canCoder.getPosition().getValue()*2*Math.PI) - canCoderOffSet, optimizedState.angle.getRadians());/*canSparkCoder.getPosition().getValue() is in rotations not radians so multiply by 2Pi (aka 360 degrees but we use radians)*/ // This one needed .getRadians() because swervemodulestates stores a rotation 2d
         // TODO: Tune PID to get an output that is in voltages so we can put it in the move thing
 
         falconMotorDrive.setVoltage(driveVoltage);

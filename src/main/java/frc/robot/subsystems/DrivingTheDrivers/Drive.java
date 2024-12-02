@@ -33,10 +33,10 @@ public class Drive extends SubsystemBase {
   
   public Drive() {
 
-    frontLeftModule = new SwerveModule(10,1,5); //Creates the swerve module objects
-    frontRightModule = new SwerveModule(11,2,6); //The values are the IDs for the motors
-    backLeftModule = new SwerveModule(9,3,7);
-    backRightModule = new SwerveModule(12,4,8);
+    frontLeftModule = new SwerveModule(10,1,5,154.9); //Creates the swerve module objects
+    frontRightModule = new SwerveModule(11,2,6,114.53); //The values are the IDs for the motors
+    backLeftModule = new SwerveModule(9,3,7,71.45);
+    backRightModule = new SwerveModule(12,4,8,217.08);
 
     gyro = new Pigeon2(25, "rio");
 

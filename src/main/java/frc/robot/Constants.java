@@ -32,6 +32,5 @@ public final class Constants {
     public static final double MAX_DRIVE_SPEED = 2.0; // In meters per second
     public static final double MAX_ROTATION_SPEED = Math.PI/20; //RADIANS
     public static final double DRIVE_ENCODER_ROTATION_TO_METERS_OF_THE_WHEEL_RATIO = 0.407;
-    public static final double CAN_CODER_OFF_SET = 0.0; //TODO: find offset
   }
 } 
