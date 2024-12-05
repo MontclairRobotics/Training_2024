@@ -43,7 +43,7 @@ public class SwerveModule {
         //would give us value thats how many turns of the encoder but we want it in meters/second so we multiply by the constant
         double currentRotation = canCoder.getPosition().getValue()*2*Math.PI - canCoderOffSet;
         // canSparkCoder.getPosition().getValue() is in rotations not radians so multiply by 2Pi (aka 360 degrees but we use radians). Then because the cancoder is an absalute encoder there is an offset
-
+        
         SwerveModuleState optimizedState = SwerveModuleState.optimize(moduleState, Rotation2d.fromRadians((currentRotation))); 
         //optimizes so that will turn in the closest direction to get to target
 

@@ -28,11 +28,11 @@ public class Drive extends SubsystemBase {
 
   public double xMoveSpeedTarget;
   public double yMoveSpeedTarget;
-  public double rotationSpeedTarget; 
+  public double rotationSpeedTarget;
 
   
   public Drive() {
-
+    
     frontLeftModule = new SwerveModule(10,1,5,154.95); //Creates the swerve module objects
     frontRightModule = new SwerveModule(11,2,6,114.53); //The values are the IDs for the motors
     backLeftModule = new SwerveModule(9,3,7,71.45);
@@ -58,11 +58,11 @@ public class Drive extends SubsystemBase {
   
   public void periodic() { //periodic runs constantly
     SwerveModuleState[] swerveModuleStatesArray = RobotContainer.drive.roboSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
-      xMoveSpeedTarget, yMoveSpeedTarget, rotationSpeedTarget, gyro.getRotation2d())); //TODO: this assumes we will always use field reletive maybe in the future we will want a switch
-  
-      frontLeftModule.setStateAndMove(swerveModuleStatesArray[0]);
-      frontRightModule.setStateAndMove(swerveModuleStatesArray[1]);
-      backLeftModule.setStateAndMove(swerveModuleStatesArray[2]);
-      backRightModule.setStateAndMove(swerveModuleStatesArray[3]);
+      xMoveSpeedTarget, yMoveSpeedTarget, rotationSpeedTarget, gyro.getRotation2d())); //This is always field relative
+    
+    frontLeftModule.setStateAndMove(swerveModuleStatesArray[0]);
+    frontRightModule.setStateAndMove(swerveModuleStatesArray[1]);
+    backLeftModule.setStateAndMove(swerveModuleStatesArray[2]);
+    backRightModule.setStateAndMove(swerveModuleStatesArray[3]);
   }
 }

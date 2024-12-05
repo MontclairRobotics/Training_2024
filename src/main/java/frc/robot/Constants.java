@@ -29,8 +29,8 @@ public final class Constants {
 
   }
   public static class DriveConstants {
-    public static final double MAX_DRIVE_SPEED = 2.0; // In meters per second
-    public static final double MAX_ROTATION_SPEED = Math.PI/10; //RADIANS
+    public static final double MAX_DRIVE_SPEED = 2.0; //Meters per second
+    public static final double MAX_ROTATION_SPEED = Math.PI; //RADIANS
     public static final double DRIVE_ENCODER_ROTATION_TO_METERS_OF_THE_WHEEL_RATIO = 0.407;
   }
 } 
