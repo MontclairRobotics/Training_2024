@@ -30,11 +30,15 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     
-    Shuffleboard.getTab("driver").addDouble("targetXDrive", ()-> RobotContainer.drive.xMoveSpeedTarget);
-    Shuffleboard.getTab("driver").addDouble("targetYDrive", ()-> RobotContainer.drive.yMoveSpeedTarget);
-    Shuffleboard.getTab("driver").addDouble("targetRot", ()-> RobotContainer.drive.rotationSpeedTarget);
-
-
+    Shuffleboard.getTab("drive").addDouble("direction", ()-> RobotContainer.drive.gyro.getRotation2d().getRadians());
+    Shuffleboard.getTab("drive").addDouble("front left voltage", ()-> RobotContainer.drive.frontLeftModule.driveVoltage);
+    Shuffleboard.getTab("drive").addDouble("front left turn voltage", ()-> RobotContainer.drive.frontLeftModule.turnVoltage);
+    Shuffleboard.getTab("drive").addDouble("front right voltage", ()-> RobotContainer.drive.frontRightModule.driveVoltage);
+    Shuffleboard.getTab("drive").addDouble("front right turn voltage", ()-> RobotContainer.drive.frontRightModule.turnVoltage);
+    Shuffleboard.getTab("drive").addDouble("back left voltage", ()-> RobotContainer.drive.backLeftModule.driveVoltage);
+    Shuffleboard.getTab("drive").addDouble("back left turn voltage", ()-> RobotContainer.drive.backLeftModule.turnVoltage);
+    Shuffleboard.getTab("drive").addDouble("back right voltage", ()-> RobotContainer.drive.backRightModule.driveVoltage);
+    Shuffleboard.getTab("drive").addDouble("back right turn voltage", ()-> RobotContainer.drive.backRightModule.turnVoltage);
   }
 
   /**

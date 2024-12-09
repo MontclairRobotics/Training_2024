@@ -18,13 +18,13 @@ import frc.robot.RobotContainer;
 
 public class Drive extends SubsystemBase {
 
-  private SwerveModule frontLeftModule;
-  private SwerveModule frontRightModule;
-  private SwerveModule backLeftModule;
-  private SwerveModule backRightModule;
+  public SwerveModule frontLeftModule;
+  public SwerveModule frontRightModule;
+  public SwerveModule backLeftModule;
+  public SwerveModule backRightModule;
 
   public SwerveDriveKinematics roboSwerveKinematics;
-  private Pigeon2 gyro;
+  public Pigeon2 gyro;
 
   public double xMoveSpeedTarget;
   public double yMoveSpeedTarget;

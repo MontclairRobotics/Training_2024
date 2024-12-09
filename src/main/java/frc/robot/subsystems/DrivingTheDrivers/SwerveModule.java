@@ -17,9 +17,9 @@ public class SwerveModule {
     private PIDController RotationPID;
     private PIDController DrivePID;
     private CANcoder canCoder;
-    private double driveVoltage;
-    private double turnVoltage;
-    private double canCoderOffSet;
+    public double driveVoltage;
+    public double turnVoltage;
+    public double canCoderOffSet;
     
     
     public SwerveModule(int canCoderID, int canTurnMotorID, int falconMotorDriveID, double canCoderOffSet) {
