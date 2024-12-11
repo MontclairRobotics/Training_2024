@@ -39,6 +39,11 @@ public class Robot extends TimedRobot {
     Shuffleboard.getTab("drive").addDouble("back left turn voltage", ()-> RobotContainer.drive.backLeftModule.turnVoltage);
     Shuffleboard.getTab("drive").addDouble("back right voltage", ()-> RobotContainer.drive.backRightModule.driveVoltage);
     Shuffleboard.getTab("drive").addDouble("back right turn voltage", ()-> RobotContainer.drive.backRightModule.turnVoltage);
+
+
+    // Shuffleboard.getTab("acutally helpfull").addDouble("front right turn encoder value", ()-> RobotContainer.drive.frontRightModule.canCoder.getPosition().getValueAsDouble()*360);
+    // Shuffleboard.getTab("acutally helpfull").addDouble("front right turn target value", ()-> RobotContainer.drive.swerveModuleStatesArray[2].angle.getDegrees());
+
   }
 
   /**

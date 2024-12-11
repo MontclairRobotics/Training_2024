@@ -45,6 +45,10 @@ public class Drive extends SubsystemBase {
       //A helper class used later that does math with our for module positions. Uses meters (our unit for everything)
   }
 
+  public void zeroGyro() {
+    gyro.reset();
+  }
+
   public void setTargetSpeed(CommandPS5Controller controller) { //This is now called as a defalt command in robot container
 
     double inputRotationSpeedWithDeadband = MathUtil.applyDeadband(controller.getRightX(), Constants.OperatorConstants.CONTROLLER_DEAD_BAND);  //this does not seem to be the case for now however one axis of a controller may be inverted
