@@ -36,7 +36,7 @@ public class SwerveModule {
         // This is needed because in a circle -180 is the same as +180
         this.canCoderOffSet = canCoderOffSet;
     }
-
+    
     public void setStateAndMove(SwerveModuleState moduleState) {
         
         double currentVelocity = falconMotorDrive.getVelocity().getValueAsDouble()*Constants.DriveConstants.DRIVE_ENCODER_ROTATION_TO_METERS_OF_THE_WHEEL_RATIO;
