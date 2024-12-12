@@ -28,8 +28,10 @@ public class Drive extends SubsystemBase {
   public Pigeon2 gyro;
 
   public double xMoveSpeedTarget;
-  public double yMoveSpeedTarget;
+  private double yMoveSpeedTarget;
   private double rotationSpeedTarget;
+  public boolean fieldRelative = true; //This decides if we drive field or robo relative
+
 
   
   public Drive() {
@@ -38,7 +40,7 @@ public class Drive extends SubsystemBase {
     frontRightModule = new SwerveModule(11,2,6,1.99892559); //The values are the IDs for the motors
     backLeftModule = new SwerveModule(9,3,7,1.2470378); //absalute encoder offsets in radians
     backRightModule = new SwerveModule(12,4,8,3.78876074);
-
+    
     gyro = new Pigeon2(25, "rio"); //gyroscope tells us what direction the whole robot is facing
 
     roboSwerveKinematics = new SwerveDriveKinematics(Constants.SwerveModuleConstants.FRONT_LEFT_SWERVE_POSITION, Constants.SwerveModuleConstants.FRONT_RIGHT_SWERVE_POSITION, 
@@ -49,8 +51,16 @@ public class Drive extends SubsystemBase {
   public void zeroGyro() {
     gyro.reset(); // sets the gyroscope's 0 to its current angle
   }
+  
+  public void fieldRelative() {
+    if (fieldRelative == true) {
+      fieldRelative = false;
+    } else {
+      fieldRelative = true;
+    }
+  }
 
-  public void setTargetSpeed(CommandPS5Controller controller, boolean fieldRelative) { //This is now called as a defalt command in robot container
+  public void setTargetSpeed(CommandPS5Controller controller) { //This is now called as a defalt command in robot container
     
     double inputRotationSpeedWithDeadband = MathUtil.applyDeadband(controller.getRightX(), Constants.OperatorConstants.CONTROLLER_DEAD_BAND);  //this does not seem to be the case for now however one axis of a controller may be inverted
     double inputXSpeedWithDeadBand = MathUtil.applyDeadband(controller.getLeftX(), Constants.OperatorConstants.CONTROLLER_DEAD_BAND);
@@ -61,23 +71,26 @@ public class Drive extends SubsystemBase {
     yMoveSpeedTarget = Math.pow(inputYSpeedWithDeadBand, 3) * Constants.DriveConstants.MAX_DRIVE_SPEED;
 
     if(fieldRelative) {
-      driveRobotRelative(xMoveSpeedTarget, yMoveSpeedTarget, rotationSpeedTarget);
-    } else {
       driveFieldRelative(xMoveSpeedTarget, yMoveSpeedTarget, rotationSpeedTarget);
+    } else {
+      driveRobotRelative(xMoveSpeedTarget, yMoveSpeedTarget, rotationSpeedTarget);
     }
   }
+
   public void setSwerveModules(SwerveModuleState[] swerveModuleStatesArray) {
     frontLeftModule.setStateAndMove(swerveModuleStatesArray[0]);
     frontRightModule.setStateAndMove(swerveModuleStatesArray[1]);
     backLeftModule.setStateAndMove(swerveModuleStatesArray[2]);
     backRightModule.setStateAndMove(swerveModuleStatesArray[3]);
   }
+
   public void driveRobotRelative(double xMoveSpeedTarget, double yMoveSpeedTarget, double rotationSpeedTarget) {
     SwerveModuleState[] swerveModuleStatesArray = RobotContainer.drive.roboSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
       xMoveSpeedTarget, yMoveSpeedTarget, rotationSpeedTarget, Rotation2d.fromRadians(0)));
     
     setSwerveModules(swerveModuleStatesArray);
   }
+
   public void driveFieldRelative(double xMoveSpeedTarget, double yMoveSpeedTarget, double rotationSpeedTarget) {
     SwerveModuleState[] swerveModuleStatesArray = RobotContainer.drive.roboSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
       xMoveSpeedTarget, yMoveSpeedTarget, rotationSpeedTarget, gyro.getRotation2d()));
