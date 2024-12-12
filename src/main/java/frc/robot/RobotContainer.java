@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  public boolean fieldRelative = true;
+  public boolean fieldRelative = true; //This decides if we drive field or robo relative
 
   // The robot's subsystems and commands are defined here...
   public static Drive drive = new Drive();
@@ -43,7 +43,7 @@ public class RobotContainer {
     drive.setDefaultCommand(  //A defalt comand will do the running all the time thing exept you can interupt it w/ another command
       Commands.run(
       ()-> {
-        drive.setTargetSpeed(drivePS5Controller, fieldRelative);
+        drive.setTargetSpeed(drivePS5Controller, fieldRelative); //lambda for setting target speed whether it be robo or field relative
       }, drive
     ));
   }
@@ -66,7 +66,7 @@ public class RobotContainer {
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
     if(fieldRelative) {
-      drivePS5Controller.circle().onTrue(Commands.run(() -> {if(fieldRelative) {fieldRelative = false;} else {fieldRelative = true;}}));
+      drivePS5Controller.circle().onTrue(Commands.run(() -> {if(fieldRelative) {fieldRelative = false;} else {fieldRelative = true;}})); //changes from field to robo relative and vice versa
     }
     drivePS5Controller.touchpad().onTrue(Commands.runOnce(() -> {drive.zeroGyro();}));
   }
