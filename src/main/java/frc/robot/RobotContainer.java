@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+  public boolean fieldRelative = true;
 
   // The robot's subsystems and commands are defined here...
   public static Drive drive = new Drive();
@@ -42,7 +43,7 @@ public class RobotContainer {
     drive.setDefaultCommand(  //A defalt comand will do the running all the time thing exept you can interupt it w/ another command
       Commands.run(
       ()-> {
-        drive.setTargetSpeed(drivePS5Controller);
+        drive.setTargetSpeed(drivePS5Controller, fieldRelative);
       }, drive
     ));
   }
@@ -64,6 +65,9 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    if(fieldRelative) {
+      drivePS5Controller.circle().onTrue(Commands.run(() -> {if(fieldRelative) {fieldRelative = false;} else {fieldRelative = true;}}));
+    }
     drivePS5Controller.touchpad().onTrue(Commands.runOnce(() -> {drive.zeroGyro();}));
   }
 

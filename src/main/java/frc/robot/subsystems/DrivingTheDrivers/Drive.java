@@ -50,8 +50,9 @@ public class Drive extends SubsystemBase {
     gyro.reset(); // sets the gyroscope's 0 to its current angle
   }
 
-  public void setTargetSpeed(CommandPS5Controller controller) { //This is now called as a defalt command in robot container
+  public void setTargetSpeed(CommandPS5Controller controller, boolean fieldRelative) { //This is now called as a defalt command in robot container
     
+    SwerveModuleState[] swerveModuleStatesArray;
     double inputRotationSpeedWithDeadband = MathUtil.applyDeadband(controller.getRightX(), Constants.OperatorConstants.CONTROLLER_DEAD_BAND);  //this does not seem to be the case for now however one axis of a controller may be inverted
     double inputXSpeedWithDeadBand = MathUtil.applyDeadband(controller.getLeftX(), Constants.OperatorConstants.CONTROLLER_DEAD_BAND);
     double inputYSpeedWithDeadBand = MathUtil.applyDeadband(controller.getLeftY(), Constants.OperatorConstants.CONTROLLER_DEAD_BAND);
@@ -60,8 +61,13 @@ public class Drive extends SubsystemBase {
     xMoveSpeedTarget = Math.pow(inputXSpeedWithDeadBand, 3) * Constants.DriveConstants.MAX_DRIVE_SPEED; //When controller all the way should output 2 (meters persecond)
     yMoveSpeedTarget = Math.pow(inputYSpeedWithDeadBand, 3) * Constants.DriveConstants.MAX_DRIVE_SPEED;
 
-    SwerveModuleState[] swerveModuleStatesArray = RobotContainer.drive.roboSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
+    if(fieldRelative) {
+      swerveModuleStatesArray = RobotContainer.drive.roboSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
       xMoveSpeedTarget, yMoveSpeedTarget, rotationSpeedTarget, gyro.getRotation2d())); //This is always field relative
+    } else {
+      swerveModuleStatesArray = RobotContainer.drive.roboSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
+      xMoveSpeedTarget, yMoveSpeedTarget, rotationSpeedTarget, Rotation2d.fromRadians(0)));
+    }
 
     setModules(swerveModuleStatesArray);
   }
