@@ -67,8 +67,8 @@ public class RobotContainer {
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
     if(fieldRelative) {
       drivePS5Controller.circle().onTrue(Commands.run(() -> {if(fieldRelative) {fieldRelative = false;} else {fieldRelative = true;}})); //changes from field to robo relative and vice versa
-    }
     drivePS5Controller.touchpad().onTrue(Commands.runOnce(() -> {drive.zeroGyro();}));
+    }
   }
 
   /**
