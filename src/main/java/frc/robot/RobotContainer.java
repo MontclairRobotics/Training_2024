@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.subsystems.Climbers;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.DrivingTheDrivers.Drive;
@@ -27,11 +28,14 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static Drive drive = new Drive();
   public static Intake intake = new Intake();
+  public static Climbers climbers = new Climbers();
   public static ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
   // Controllers
   private final CommandPS5Controller drivePS5Controller =
       new CommandPS5Controller(OperatorConstants.kDriverControllerPort);
+  private final CommandPS5Controller operatorPS5Controller =
+      new CommandPS5Controller(OperatorConstants.kOperatorControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -76,19 +80,13 @@ public class RobotContainer {
       }, drive
     ));
 
-    drivePS5Controller.cross().whileTrue(Commands.runOnce(
-      () -> {
-        intake.intakeNote();
-      }, intake
-    ));
-
-    drivePS5Controller.triangle().whileTrue(Commands.runOnce(
-      () -> {
-        intake.outtakeNote();
-      }, intake
-    ));
-
+    //Intake
+    operatorPS5Controller.cross().whileTrue(intake.outTakeNoteCommand()).onFalse(intake.stopCommand());
+    operatorPS5Controller.triangle().whileTrue(intake.inTakeNoteCommand()).onFalse(intake.stopCommand());
     
+    //Climbers
+    operatorPS5Controller.square().onTrue(climbers.downCommand()).onFalse(climbers.stopCommand());
+    operatorPS5Controller.cross().onTrue(climbers.upCommand()).onFalse(climbers.stopCommand());    
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

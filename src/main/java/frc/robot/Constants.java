@@ -18,6 +18,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
+    public static final int kOperatorControllerPort = 1;
     public static final double CONTROLLER_DEAD_BAND = 0.08;
 
   }
@@ -34,7 +35,20 @@ public final class Constants {
     public static final double DRIVE_ENCODER_ROTATION_TO_METERS_OF_THE_WHEEL_RATIO = 0.407;
   }
 
-  public static class IntakeConstans {
-    public static final double intakeSpeed = 0.8;
+  public static class IntakeConstants {
+    public static final double INTAKE_SPEED = 0.2;
+    public static final int INTAKE_TOP_MOTOR_ID = 21;
+    public static final int INTAKE_BOTTOM_MOTOR_ID = 20;
+
+  }
+
+  public static class ClimberConstants {
+
+    public static final double CLIMBER_SPEED = 0.2;
+
+    public static final int CLIMBER_LEFT_MOTOR_ID = 48;
+    public static final int CLIMBER_RIGHT_MOTOR_ID = 49;
+    public static final int CLIMBER_LEFT_LIMIT_SWITCH_ID= 5;
+    public static final int CLIMBER_RIGHT_LIMIT_SWITCH_ID = 4;
   }
 } 
