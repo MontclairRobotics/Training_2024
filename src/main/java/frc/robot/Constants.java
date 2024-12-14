@@ -35,6 +35,6 @@ public final class Constants {
   }
 
   public static class IntakeConstans {
-    
+    public static final double intakeSpeed = 0.8;
   }
 } 

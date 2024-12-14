@@ -31,7 +31,6 @@ public class SwerveModule {
         
         RotationPID = new PIDController(2,0,0); //placeholder values for PID
         DrivePID  = new PIDController(5.7,0,0); //placeholder values for PID
-
         RotationPID.enableContinuousInput(-Math.PI, Math.PI);
         // This is needed because in a circle -180 is the same as +180
         this.canCoderOffSet = canCoderOffSet;

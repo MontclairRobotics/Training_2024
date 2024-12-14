@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import frc.robot.Constants;
+
 public class Intake {
     
     private TalonFX firstIntakeNeo;
@@ -11,10 +13,10 @@ public class Intake {
     }
 
     public void intakeNote() {
-        firstIntakeNeo.set(0.8);
+        firstIntakeNeo.set(Constants.IntakeConstans.intakeSpeed);
     }
 
     public void outtakeNote() {
-        firstIntakeNeo.set(-0.8);
+        firstIntakeNeo.set(-Constants.IntakeConstans.intakeSpeed);
     }
 }
