@@ -8,7 +8,13 @@ public class Intake {
     
     public Intake () {
         firstIntakeNeo = new TalonFX(98);
-        firstIntakeNeo.set(0.8);
+    }
 
+    public void intakeNote() {
+        firstIntakeNeo.set(0.8);
+    }
+
+    public void outtakeNote() {
+        firstIntakeNeo.set(-0.8);
     }
 }
