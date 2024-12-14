@@ -33,4 +33,8 @@ public final class Constants {
     public static final double MAX_ROTATION_SPEED = Math.PI; //RADIANS
     public static final double DRIVE_ENCODER_ROTATION_TO_METERS_OF_THE_WHEEL_RATIO = 0.407;
   }
+
+  public static class IntakeConstans {
+    
+  }
 } 
