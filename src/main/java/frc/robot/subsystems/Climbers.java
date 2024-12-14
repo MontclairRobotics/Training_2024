@@ -11,8 +11,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Climbers extends SubsystemBase{
-    CANSparkMax leftClimberMotor = new CANSparkMax(Constants.ClimberConstants.CLIMBER_LEFT_MOTOR_ID,MotorType.kBrushless);
-    CANSparkMax rightClimberMotor = new CANSparkMax(Constants.ClimberConstants.CLIMBER_RIGHT_MOTOR_ID,MotorType.kBrushless);
+
+    CANSparkMax leftClimberMotor = new CANSparkMax(Constants.ClimberConstants.CLIMBER_LEFT_MOTOR_ID, MotorType.kBrushless);
+    CANSparkMax rightClimberMotor = new CANSparkMax(Constants.ClimberConstants.CLIMBER_RIGHT_MOTOR_ID, MotorType.kBrushless);
     DigitalInput leftlimitSwitch = new DigitalInput(Constants.ClimberConstants.CLIMBER_LEFT_LIMIT_SWITCH_ID);
     DigitalInput rightlimitSwitch = new DigitalInput(Constants.ClimberConstants.CLIMBER_RIGHT_LIMIT_SWITCH_ID);
 
@@ -20,7 +21,7 @@ public class Climbers extends SubsystemBase{
     boolean canLeftClimberGoDown = true;
 
     public Climbers(){
-//        leftClimberMotor.setInverted(true); //we might not need this
+//        leftClimberMotor.setInverted(true); //we might not need this TODO: Test Climbers and find out
 //        rightClimberMotor.setInverted(true);
         leftClimberMotor.setIdleMode(IdleMode.kBrake);
         rightClimberMotor.setIdleMode(IdleMode.kBrake);

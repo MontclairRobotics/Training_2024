@@ -13,38 +13,40 @@ import edu.wpi.first.math.geometry.Translation2d;
  *
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
- * I think the distances for each swerve module (as Translation2d) should go in constants
  */
 public final class Constants {
   public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
-    public static final int kOperatorControllerPort = 1;
-    public static final double CONTROLLER_DEAD_BAND = 0.08;
 
+    public static final int DRIVER_CONTROLLER = 0;
+    public static final int OPERATOR_CONTROLLER = 1; //TODO: is this okay?
+    public static final double CONTROLLER_DEAD_BAND = 0.08;
   }
   public static class SwerveModuleConstants {
+
     public static final Translation2d FRONT_LEFT_SWERVE_POSITION = new Translation2d(0.301625, 0.301625);
     public static final Translation2d FRONT_RIGHT_SWERVE_POSITION = new Translation2d(0.301625, -0.301625); 
     public static final Translation2d BACK_LEFT_SWERVE_POSITION = new Translation2d(-0.301625, 0.301625); 
     public static final Translation2d BACK_RIGHT_SWERVE_POSITION = new Translation2d(-0.301625, -0.301625);
-
   }
   public static class DriveConstants {
+
     public static final double MAX_DRIVE_SPEED = 2.0; //Meters per second
     public static final double MAX_ROTATION_SPEED = Math.PI; //RADIANS
+
     public static final double DRIVE_ENCODER_ROTATION_TO_METERS_OF_THE_WHEEL_RATIO = 0.407;
   }
 
   public static class IntakeConstants {
-    public static final double INTAKE_SPEED = 0.2;
+
+    public static final double INTAKE_SPEED = 0.2; //TODO: find
+
     public static final int INTAKE_TOP_MOTOR_ID = 21;
     public static final int INTAKE_BOTTOM_MOTOR_ID = 20;
-
   }
 
   public static class ClimberConstants {
 
-    public static final double CLIMBER_SPEED = 0.2;
+    public static final double CLIMBER_SPEED = 0.2; //TODO: find
 
     public static final int CLIMBER_LEFT_MOTOR_ID = 48;
     public static final int CLIMBER_RIGHT_MOTOR_ID = 49;

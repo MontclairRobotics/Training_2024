@@ -10,7 +10,7 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Climbers;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.DrivingTheDrivers.Drive;
+import frc.robot.subsystems.DriveTrain.Drive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
@@ -33,9 +33,10 @@ public class RobotContainer {
 
   // Controllers
   private final CommandPS5Controller drivePS5Controller =
-      new CommandPS5Controller(OperatorConstants.kDriverControllerPort);
+      new CommandPS5Controller(OperatorConstants.DRIVER_CONTROLLER);
+
   private final CommandPS5Controller operatorPS5Controller =
-      new CommandPS5Controller(OperatorConstants.kOperatorControllerPort);
+      new CommandPS5Controller(OperatorConstants.OPERATOR_CONTROLLER);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -45,7 +46,7 @@ public class RobotContainer {
     drive.setDefaultCommand(  //A defalt comand will do the running all the time thing exept you can interupt it w/ another command
       Commands.run(
       ()-> {
-        drive.setTargetSpeed(drivePS5Controller); //lambda for setting target speed whether it be robo or field relative
+        drive.setTargetSpeedFromController(drivePS5Controller); //lambda for setting target speed whether it be robo or field relative
       }, drive
     ));
   }
@@ -68,17 +69,10 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    drivePS5Controller.circle().onTrue(Commands.runOnce(
-      () -> {
-        drive.fieldRelative();
-      }, drive
-    ));
 
-    drivePS5Controller.touchpad().onTrue(Commands.runOnce(
-      () -> {
-        drive.zeroGyro();
-      }, drive
-    ));
+    //Drive
+    drivePS5Controller.circle().onTrue(drive.toggleRobotRelativeCommand());
+    drivePS5Controller.touchpad().onTrue(drive.zeroGyroscopeCommand());
 
     //Intake
     operatorPS5Controller.cross().whileTrue(intake.outTakeNoteCommand()).onFalse(intake.stopCommand());
@@ -88,6 +82,8 @@ public class RobotContainer {
     operatorPS5Controller.square().onTrue(climbers.downCommand()).onFalse(climbers.stopCommand());
     operatorPS5Controller.cross().onTrue(climbers.upCommand()).onFalse(climbers.stopCommand());    
   }
+
+  
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
