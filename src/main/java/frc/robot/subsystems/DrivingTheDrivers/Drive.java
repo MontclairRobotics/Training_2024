@@ -7,7 +7,6 @@ package frc.robot.subsystems.DrivingTheDrivers;
 import com.ctre.phoenix6.hardware.Pigeon2;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -85,13 +84,16 @@ public class Drive extends SubsystemBase {
   }
 
   public void driveRobotRelative(double xMoveSpeedTarget, double yMoveSpeedTarget, double rotationSpeedTarget) {
-    SwerveModuleState[] swerveModuleStatesArray = RobotContainer.drive.roboSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
-      xMoveSpeedTarget, yMoveSpeedTarget, rotationSpeedTarget, Rotation2d.fromRadians(0)));
+    
+    ChassisSpeeds chassisSpeeds = new ChassisSpeeds(xMoveSpeedTarget, yMoveSpeedTarget, rotationSpeedTarget);
+
+    SwerveModuleState[] swerveModuleStatesArray = RobotContainer.drive.roboSwerveKinematics.toSwerveModuleStates(chassisSpeeds);
     
     setSwerveModules(swerveModuleStatesArray);
   }
 
   public void driveFieldRelative(double xMoveSpeedTarget, double yMoveSpeedTarget, double rotationSpeedTarget) {
+
     SwerveModuleState[] swerveModuleStatesArray = RobotContainer.drive.roboSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
       xMoveSpeedTarget, yMoveSpeedTarget, rotationSpeedTarget, gyro.getRotation2d()));
 
