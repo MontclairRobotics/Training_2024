@@ -46,6 +46,8 @@ public class RobotContainer {
     ));
   }
 
+  
+
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
    * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
@@ -73,8 +75,21 @@ public class RobotContainer {
         drive.zeroGyro();
       }, drive
     ));
-  }
 
+    drivePS5Controller.cross().whileTrue(Commands.runOnce(
+      () -> {
+        intake.intakeNote();
+      }, intake
+    ));
+
+    drivePS5Controller.triangle().whileTrue(Commands.runOnce(
+      () -> {
+        intake.outtakeNote();
+      }, intake
+    ));
+
+    
+  }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
