@@ -28,9 +28,6 @@ public class Drive extends SubsystemBase {
   public SwerveDriveKinematics roboSwerveKinematics;
   public Pigeon2 gyro;
 
-  private double xMoveSpeedTarget;
-  private double yMoveSpeedTarget;
-  private double rotationSpeedTarget;
   public boolean isFieldRelative = true; //This decides if we drive field or robo relative
 
   
@@ -54,9 +51,9 @@ public class Drive extends SubsystemBase {
     double inputXSpeedWithDeadBand = MathUtil.applyDeadband(controller.getLeftX(), Constants.OperatorConstants.CONTROLLER_DEAD_BAND);
     double inputYSpeedWithDeadBand = MathUtil.applyDeadband(controller.getLeftY(), Constants.OperatorConstants.CONTROLLER_DEAD_BAND);
     
-    rotationSpeedTarget = Math.pow(inputRotationSpeedWithDeadband, 3) * Constants.DriveConstants.MAX_ROTATION_SPEED; //cubed because its easier to controll (still gives value between -1 and 1) 
-    xMoveSpeedTarget = Math.pow(inputXSpeedWithDeadBand, 3) * Constants.DriveConstants.MAX_DRIVE_SPEED; //When controller all the way should output 2 (meters persecond)
-    yMoveSpeedTarget = Math.pow(inputYSpeedWithDeadBand, 3) * Constants.DriveConstants.MAX_DRIVE_SPEED;
+    double rotationSpeedTarget = Math.pow(inputRotationSpeedWithDeadband, 3) * Constants.DriveConstants.MAX_ROTATION_SPEED; //cubed because its easier to controll (still gives value between -1 and 1) 
+    double xMoveSpeedTarget = Math.pow(inputXSpeedWithDeadBand, 3) * Constants.DriveConstants.MAX_DRIVE_SPEED; //When controller all the way should output 2 (meters persecond)
+    double yMoveSpeedTarget = Math.pow(inputYSpeedWithDeadBand, 3) * Constants.DriveConstants.MAX_DRIVE_SPEED;
 
     if(isFieldRelative) {
       driveFieldRelative(xMoveSpeedTarget, yMoveSpeedTarget, rotationSpeedTarget);
@@ -67,8 +64,8 @@ public class Drive extends SubsystemBase {
 
   public void driveFieldRelative(double xMoveSpeedTarget, double yMoveSpeedTarget, double rotationSpeedTarget) {
 
-    SwerveModuleState[] swerveModuleStatesArray = RobotContainer.drive.roboSwerveKinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
-      xMoveSpeedTarget, yMoveSpeedTarget, rotationSpeedTarget, gyro.getRotation2d()));
+    SwerveModuleState[] swerveModuleStatesArray = RobotContainer.drive.roboSwerveKinematics.toSwerveModuleStates(
+      ChassisSpeeds.fromFieldRelativeSpeeds(xMoveSpeedTarget, yMoveSpeedTarget, rotationSpeedTarget, gyro.getRotation2d()));
 
     setSwerveModules(swerveModuleStatesArray);
   }
@@ -97,16 +94,8 @@ public class Drive extends SubsystemBase {
     }
   }
 
-  public void zeroGyroscope() {
-    gyro.reset(); // sets the gyroscope's 0 to its current angle
-  }
-
   //Commands
   public Command toggleRobotRelativeCommand() {
     return Commands.runOnce( ()-> toggleRobotRelative());
   }
-
-  public Command zeroGyroscopeCommand() {
-    return Commands.runOnce( () -> zeroGyroscope());
-  } 
 }

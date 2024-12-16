@@ -14,19 +14,19 @@ public class Climbers extends SubsystemBase{
 
     CANSparkMax leftClimberMotor = new CANSparkMax(Constants.ClimberConstants.CLIMBER_LEFT_MOTOR_ID, MotorType.kBrushless);
     CANSparkMax rightClimberMotor = new CANSparkMax(Constants.ClimberConstants.CLIMBER_RIGHT_MOTOR_ID, MotorType.kBrushless);
+
     DigitalInput leftlimitSwitch = new DigitalInput(Constants.ClimberConstants.CLIMBER_LEFT_LIMIT_SWITCH_ID);
     DigitalInput rightlimitSwitch = new DigitalInput(Constants.ClimberConstants.CLIMBER_RIGHT_LIMIT_SWITCH_ID);
 
-    boolean canRightClimberGoDown = true;
-    boolean canLeftClimberGoDown = true;
-
     public Climbers(){
-//        leftClimberMotor.setInverted(true); //we might not need this TODO: Test Climbers and find out
-//        rightClimberMotor.setInverted(true);
+
+        //leftClimberMotor.setInverted(true); //we might not need this TODO: Test Climbers and find out
+        //rightClimberMotor.setInverted(true);
+
         leftClimberMotor.setIdleMode(IdleMode.kBrake);
         rightClimberMotor.setIdleMode(IdleMode.kBrake);
     }
-    //start climber motors
+    //Rais climbers (start climber motors foward)
     public void up(){
         leftClimberMotor.set(Constants.ClimberConstants.CLIMBER_SPEED);
         rightClimberMotor.set(Constants.ClimberConstants.CLIMBER_SPEED);
@@ -36,19 +36,22 @@ public class Climbers extends SubsystemBase{
         leftClimberMotor.set(0);
         rightClimberMotor.set(0);
     }
-    //start in the reverse direction
+    //If possible lower climbers (start motors in the reverse dirction)
     public void down(){
-        if(canLeftClimberGoDown){ //this stuff checks the limit switch to make sure it can go down further first
-            leftClimberMotor.set(-Constants.ClimberConstants.CLIMBER_SPEED);
-        } else {
+        if(leftlimitSwitch.get()){ //this checks the limit switch to make sure it can go down further first. If it cant it stops instead of going further.
             leftClimberMotor.set(0);
-        }
-        if(canRightClimberGoDown){
-            rightClimberMotor.set(-Constants.ClimberConstants.CLIMBER_SPEED);
         } else {
+            leftClimberMotor.set(-Constants.ClimberConstants.CLIMBER_SPEED);
+        }
+        if(rightlimitSwitch.get()){
             rightClimberMotor.set(0);
+        } else {
+            rightClimberMotor.set(-Constants.ClimberConstants.CLIMBER_SPEED);
         }
     }
+
+    /*Commands*/
+
     //Start Command
     public Command upCommand(){
         return Commands.runOnce(()-> up());
@@ -57,21 +60,8 @@ public class Climbers extends SubsystemBase{
     public Command stopCommand(){
         return Commands.runOnce(()-> stop());
     }
-    //reverse Command
+    //down Command
     public Command downCommand(){
         return Commands.runOnce(()-> down());
-    }
-
-    public void periodic(){
-        if (rightlimitSwitch.get()) {
-            canRightClimberGoDown = false;
-        } else {
-            canRightClimberGoDown = true;
-        }
-        if (leftlimitSwitch.get()) {
-            canLeftClimberGoDown = false;
-        } else {
-            canLeftClimberGoDown = true;
-        }
     }
 }

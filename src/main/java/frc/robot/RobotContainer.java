@@ -72,7 +72,7 @@ public class RobotContainer {
 
     //Drive
     drivePS5Controller.circle().onTrue(drive.toggleRobotRelativeCommand());
-    drivePS5Controller.touchpad().onTrue(drive.zeroGyroscopeCommand());
+    drivePS5Controller.touchpad().onTrue(Commands.runOnce(()-> drive.gyro.reset()));
 
     //Intake
     operatorPS5Controller.cross().whileTrue(intake.outTakeNoteCommand()).onFalse(intake.stopCommand());
@@ -83,7 +83,7 @@ public class RobotContainer {
     operatorPS5Controller.cross().onTrue(climbers.upCommand()).onFalse(climbers.stopCommand());    
   }
 
-  
+
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
