@@ -37,6 +37,7 @@ public class RobotContainer {
 
   private final CommandPS5Controller operatorPS5Controller =
       new CommandPS5Controller(OperatorConstants.OPERATOR_CONTROLLER);
+  //TODO: opererator controller is inverted y axis
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -75,12 +76,12 @@ public class RobotContainer {
     drivePS5Controller.touchpad().onTrue(Commands.runOnce(()-> drive.gyro.reset()));
 
     //Intake
-    operatorPS5Controller.cross().whileTrue(intake.outTakeNoteCommand()).onFalse(intake.stopCommand());
     operatorPS5Controller.triangle().whileTrue(intake.inTakeNoteCommand()).onFalse(intake.stopCommand());
+    operatorPS5Controller.cross().whileTrue(intake.outTakeNoteCommand()).onFalse(intake.stopCommand());
     
     //Climbers
     operatorPS5Controller.square().onTrue(climbers.downCommand()).onFalse(climbers.stopCommand());
-    operatorPS5Controller.cross().onTrue(climbers.upCommand()).onFalse(climbers.stopCommand());    
+    operatorPS5Controller.circle().onTrue(climbers.upCommand()).onFalse(climbers.stopCommand());    
   }
 
 

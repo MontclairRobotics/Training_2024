@@ -38,10 +38,10 @@ public final class Constants {
 
   public static class IntakeConstants {
 
-    public static final double INTAKE_SPEED = 0.2; //TODO: find
+    public static final double INTAKE_SPEED = 0.6; //TODO: find
 
-    public static final int INTAKE_TOP_MOTOR_ID = 21;
-    public static final int INTAKE_BOTTOM_MOTOR_ID = 20;
+    public static final int INTAKE_TOP_MOTOR_ID = 20;
+    public static final int INTAKE_BOTTOM_MOTOR_ID = 21;
   }
 
   public static class ClimberConstants {

@@ -1,6 +1,9 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.revrobotics.CANSparkBase;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -9,12 +12,12 @@ import frc.robot.Constants;
 
 public class Intake extends SubsystemBase{
     
-    private TalonFX topIntakeNeo;
-    private TalonFX bottomIntakeNeo;
+    private CANSparkMax topIntakeNeo;
+    private CANSparkMax bottomIntakeNeo;
     
     public Intake () {
-        topIntakeNeo = new TalonFX(Constants.IntakeConstants.INTAKE_TOP_MOTOR_ID);
-        bottomIntakeNeo = new TalonFX(Constants.IntakeConstants.INTAKE_BOTTOM_MOTOR_ID);
+        topIntakeNeo = new CANSparkMax(Constants.IntakeConstants.INTAKE_TOP_MOTOR_ID, MotorType.kBrushless);
+        bottomIntakeNeo = new CANSparkMax(Constants.IntakeConstants.INTAKE_BOTTOM_MOTOR_ID, MotorType.kBrushless);
     }
 
     public void inTakeNote() {
