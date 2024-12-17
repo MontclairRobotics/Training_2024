@@ -19,7 +19,9 @@ public final class Constants {
 
     public static final int DRIVER_CONTROLLER = 0;
     public static final int OPERATOR_CONTROLLER = 1;
-    public static final double CONTROLLER_DEAD_BAND = 0.08;
+    public static final double DRIVER_CONTROLLER_DEAD_BAND = 0.08;
+    public static final double OPERATOR_CONTROLLER_DEAD_BAND = 0.2;
+
   }
   public static class SwerveModuleConstants {
 
@@ -60,5 +62,14 @@ public final class Constants {
 
     public static final int SPROCKET_RIGHT_MOTOR_ID = 31;
     public static final int SPROCKET_LEFT_MOTOR_ID = 30;    
+  }
+
+  public static class ShooterConstants {
+    public static final double SHOOTER_SPEED = 0.8;
+    public static final double TRANSPORT_SPEED = 0.2;
+    
+    public static final int TOP_SHOOTER_MOTOR_ID = 28;
+    public static final int BOTTOM_SHOOTER_MOTOR_ID = 29;
+    public static final int TRANSPORT_MOTOR_ID = 27;
   }
 } 

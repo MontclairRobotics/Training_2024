@@ -10,6 +10,8 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Climbers;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Sprocket;
 import frc.robot.subsystems.DriveTrain.Drive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -29,6 +31,8 @@ public class RobotContainer {
   public static Drive drive = new Drive();
   public static Intake intake = new Intake();
   public static Climbers climbers = new Climbers();
+  public static Sprocket sprocket = new Sprocket();
+  public static Shooter shooter = new Shooter();
   public static ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
   // Controllers
@@ -50,6 +54,13 @@ public class RobotContainer {
         drive.setTargetSpeedFromController(drivePS5Controller); //lambda for setting target speed whether it be robo or field relative
       }, drive
     ));
+
+    sprocket.setDefaultCommand(
+      Commands.run(
+        ()-> {
+          sprocket.inputFromController(drivePS5Controller);
+        }, sprocket
+      ));
   }
 
   
@@ -82,6 +93,11 @@ public class RobotContainer {
     //Climbers
     operatorPS5Controller.square().onTrue(climbers.downCommand()).onFalse(climbers.stopCommand());
     operatorPS5Controller.circle().onTrue(climbers.upCommand()).onFalse(climbers.stopCommand());    
+    //Sprocket
+
+    //Shooter
+    drivePS5Controller.triangle().onTrue(shooter.shootCommand()).onFalse(shooter.stopCommand());
+    drivePS5Controller.square().onTrue(shooter.reverseShooterCommand()).onFalse(shooter.stopCommand());
   }
 
 

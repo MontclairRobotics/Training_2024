@@ -47,9 +47,9 @@ public class Drive extends SubsystemBase {
 
   public void setTargetSpeedFromController(CommandPS5Controller controller) { //This is now called as a defalt command in robot container
     
-    double inputRotationSpeedWithDeadband = -MathUtil.applyDeadband(controller.getRightX(), Constants.OperatorConstants.CONTROLLER_DEAD_BAND);  //this does not seem to be the case for now however one axis of a controller may be inverted
-    double inputXSpeedWithDeadBand = -MathUtil.applyDeadband(controller.getLeftY(), Constants.OperatorConstants.CONTROLLER_DEAD_BAND);
-    double inputYSpeedWithDeadBand = -MathUtil.applyDeadband(controller.getLeftX(), Constants.OperatorConstants.CONTROLLER_DEAD_BAND);
+    double inputRotationSpeedWithDeadband = -MathUtil.applyDeadband(controller.getRightX(), Constants.OperatorConstants.DRIVER_CONTROLLER_DEAD_BAND);  //this does not seem to be the case for now however one axis of a controller may be inverted
+    double inputXSpeedWithDeadBand = -MathUtil.applyDeadband(controller.getLeftY(), Constants.OperatorConstants.DRIVER_CONTROLLER_DEAD_BAND);
+    double inputYSpeedWithDeadBand = -MathUtil.applyDeadband(controller.getLeftX(), Constants.OperatorConstants.DRIVER_CONTROLLER_DEAD_BAND);
     
     double rotationSpeedTarget = Math.pow(inputRotationSpeedWithDeadband, 3) * Constants.DriveConstants.MAX_ROTATION_SPEED; //cubed because its easier to controll (still gives value between -1 and 1) 
     double xMoveSpeedTarget = Math.pow(inputXSpeedWithDeadBand, 3) * Constants.DriveConstants.MAX_DRIVE_SPEED; //When controller all the way should output 2 (meters persecond)

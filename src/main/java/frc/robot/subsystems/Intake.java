@@ -20,12 +20,12 @@ public class Intake extends SubsystemBase{
 
     public void inTakeNote() {
         topNEO.set(Constants.IntakeConstants.INTAKE_SPEED);
-        bottomNEO.set(-Constants.IntakeConstants.INTAKE_SPEED); //TODO: theres a negitive here but I'm not sure we need one
+        bottomNEO.set(-Constants.IntakeConstants.INTAKE_SPEED);
     }
 
     public void outTakeNote() {
         topNEO.set(-Constants.IntakeConstants.INTAKE_SPEED);
-        bottomNEO.set(Constants.IntakeConstants.INTAKE_SPEED); //same here
+        bottomNEO.set(Constants.IntakeConstants.INTAKE_SPEED);
     }
 
     public void stop(){
