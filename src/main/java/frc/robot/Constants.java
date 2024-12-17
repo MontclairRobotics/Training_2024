@@ -18,7 +18,7 @@ public final class Constants {
   public static class OperatorConstants {
 
     public static final int DRIVER_CONTROLLER = 0;
-    public static final int OPERATOR_CONTROLLER = 1; //TODO: is this okay?
+    public static final int OPERATOR_CONTROLLER = 1;
     public static final double CONTROLLER_DEAD_BAND = 0.08;
   }
   public static class SwerveModuleConstants {
@@ -38,7 +38,7 @@ public final class Constants {
 
   public static class IntakeConstants {
 
-    public static final double INTAKE_SPEED = 0.6; //TODO: find
+    public static final double INTAKE_SPEED = 0.6;
 
     public static final int INTAKE_TOP_MOTOR_ID = 20;
     public static final int INTAKE_BOTTOM_MOTOR_ID = 21;
@@ -46,11 +46,19 @@ public final class Constants {
 
   public static class ClimberConstants {
 
-    public static final double CLIMBER_SPEED = 0.2; //TODO: find
+    public static final double CLIMBER_SPEED = 0.2;
 
     public static final int CLIMBER_LEFT_MOTOR_ID = 48;
     public static final int CLIMBER_RIGHT_MOTOR_ID = 49;
     public static final int CLIMBER_LEFT_LIMIT_SWITCH_ID= 5;
     public static final int CLIMBER_RIGHT_LIMIT_SWITCH_ID = 4;
+  }
+
+  public static class SprocketConstants {
+  
+    public static final double SPROCKET_SPEED = 0.15;
+
+    public static final int SPROCKET_RIGHT_MOTOR_ID = 31;
+    public static final int SPROCKET_LEFT_MOTOR_ID = 30;    
   }
 } 
