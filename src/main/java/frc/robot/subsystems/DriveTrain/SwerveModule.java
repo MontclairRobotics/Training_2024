@@ -46,7 +46,6 @@ public class SwerveModule {
         SwerveModuleState optimizedState = SwerveModuleState.optimize(moduleState, Rotation2d.fromRadians(currentRotation)); 
         //optimizes so that will turn in the closest direction to get to target
 
-        // TODO: Tune PID to get an output that is in voltages so we can put it in the move thing
         driveVoltage = DrivePID.calculate(currentVelocity, optimizedState.speedMetersPerSecond); //set Drive volatage using PID(current volocity, target volocity)
         
         turnVoltage = RotationPID.calculate(currentRotation, optimizedState.angle.getRadians()); //set turn volatage using PID(current rotarion, target rotation)

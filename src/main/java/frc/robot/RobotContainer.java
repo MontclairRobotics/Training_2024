@@ -38,10 +38,11 @@ public class RobotContainer {
   // Controllers
   private final CommandPS5Controller drivePS5Controller =
       new CommandPS5Controller(OperatorConstants.DRIVER_CONTROLLER);
+  //x and y switched on drive controller 
 
   private final CommandPS5Controller operatorPS5Controller =
       new CommandPS5Controller(OperatorConstants.OPERATOR_CONTROLLER);
-  //TODO: opererator controller is inverted y axis
+  //operator controller is inverted on the y axis
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {

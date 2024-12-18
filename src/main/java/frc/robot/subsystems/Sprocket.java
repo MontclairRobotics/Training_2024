@@ -23,7 +23,7 @@ public class Sprocket extends SubsystemBase{
     }
 
     public void inputFromController(CommandPS5Controller controller) {
-        double speed = Math.pow(MathUtil.applyDeadband(controller.getLeftY(), Constants.OperatorConstants.OPERATOR_CONTROLLER_DEAD_BAND),3) - 0.2;
+        double speed = -Math.pow(MathUtil.applyDeadband(controller.getLeftY(), Constants.OperatorConstants.OPERATOR_CONTROLLER_DEAD_BAND),3) - 0.2;
         move(speed);
     }
 

@@ -20,7 +20,7 @@ public final class Constants {
     public static final int DRIVER_CONTROLLER = 0;
     public static final int OPERATOR_CONTROLLER = 1;
     public static final double DRIVER_CONTROLLER_DEAD_BAND = 0.08;
-    public static final double OPERATOR_CONTROLLER_DEAD_BAND = 0.2;
+    public static final double OPERATOR_CONTROLLER_DEAD_BAND = 0.08;
 
   }
   public static class SwerveModuleConstants {

@@ -20,7 +20,7 @@ public class Climbers extends SubsystemBase{
 
     public Climbers(){
 
-        //leftClimberMotor.setInverted(true); //we might not need this TODO: Test Climbers and find out
+        //leftClimberMotor.setInverted(true); //we might not need this Test Climbers and find out
         //rightClimberMotor.setInverted(true);
 
         leftClimberMotor.setIdleMode(IdleMode.kBrake);
