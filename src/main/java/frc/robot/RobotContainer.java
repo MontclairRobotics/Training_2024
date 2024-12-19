@@ -13,10 +13,12 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Sprocket;
 import frc.robot.subsystems.DriveTrain.Drive;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -83,6 +85,15 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
 
+    GenericHID operatorHID = operatorPS5Controller.getHID();
+    POVButton operatorUpDPad = new POVButton(operatorHID, 0);
+    @SuppressWarnings("unused")
+    POVButton operatorRightDPad = new POVButton(operatorHID, 90);
+    POVButton operatorDownDPad = new POVButton(operatorHID, 180);
+    @SuppressWarnings("unused")
+    POVButton operatorLeftDPad = new POVButton(operatorHID, 270);
+
+
     //Drive
     drivePS5Controller.circle().onTrue(drive.toggleRobotRelativeCommand());
     drivePS5Controller.touchpad().onTrue(Commands.runOnce(()-> drive.gyro.reset()));
@@ -92,8 +103,8 @@ public class RobotContainer {
     operatorPS5Controller.cross().whileTrue(intake.outTakeNoteCommand()).onFalse(intake.stopCommand());
     
     //Climbers
-    operatorPS5Controller.square().onTrue(climbers.downCommand()).onFalse(climbers.stopCommand());
-    operatorPS5Controller.circle().onTrue(climbers.upCommand()).onFalse(climbers.stopCommand());    
+    operatorUpDPad.onTrue(climbers.upCommand()).onFalse(climbers.stopCommand());    
+    operatorDownDPad.onTrue(climbers.downCommand()).onFalse(climbers.stopCommand());
     //Sprocket
 
     //Shooter
