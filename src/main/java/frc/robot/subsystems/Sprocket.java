@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.math.MathUtil;
 // import edu.wpi.first.wpilibj2.command.Command;
@@ -8,18 +9,17 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 
-import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import frc.robot.Constants;
 
 public class Sprocket extends SubsystemBase{
     
-    private CANSparkMax leftNEO;
-    private CANSparkMax rightNEO;
+    private SparkMax leftNEO;
+    private SparkMax rightNEO;
 
     public Sprocket() {
-        leftNEO = new CANSparkMax(30, MotorType.kBrushless);
-        rightNEO = new CANSparkMax(31, MotorType.kBrushless);
+        leftNEO = new SparkMax(30, MotorType.kBrushless);
+        rightNEO = new SparkMax(31, MotorType.kBrushless);
     }
 
     public void inputFromController(CommandPS5Controller controller) {

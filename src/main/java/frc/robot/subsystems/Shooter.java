@@ -1,25 +1,25 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants;
 
 import com.ctre.phoenix6.hardware.CANcoder;
-import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
 
 public class Shooter {
     
-    public CANSparkMax bottomMotor;
-    public CANSparkMax topMotor;
-    public CANSparkMax transportMotor;
+    public SparkMax bottomMotor;
+    public SparkMax topMotor;
+    public SparkMax transportMotor;
     public CANcoder shooterEncoder;
 
     public Shooter() {
-        topMotor = new CANSparkMax(Constants.ShooterConstants.TOP_SHOOTER_MOTOR_ID, MotorType.kBrushless);
-        bottomMotor = new CANSparkMax(Constants.ShooterConstants.BOTTOM_SHOOTER_MOTOR_ID, MotorType.kBrushless);
-        transportMotor = new CANSparkMax(Constants.ShooterConstants.TRANSPORT_MOTOR_ID, MotorType.kBrushless);
+        topMotor = new SparkMax(Constants.ShooterConstants.TOP_SHOOTER_MOTOR_ID, MotorType.kBrushless);
+        bottomMotor = new SparkMax(Constants.ShooterConstants.BOTTOM_SHOOTER_MOTOR_ID, MotorType.kBrushless);
+        transportMotor = new SparkMax(Constants.ShooterConstants.TRANSPORT_MOTOR_ID, MotorType.kBrushless);
 
     }
 

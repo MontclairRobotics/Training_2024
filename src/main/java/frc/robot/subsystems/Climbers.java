@@ -1,8 +1,11 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -12,8 +15,8 @@ import frc.robot.Constants;
 
 public class Climbers extends SubsystemBase{
 
-    CANSparkMax leftClimberMotor = new CANSparkMax(Constants.ClimberConstants.CLIMBER_LEFT_MOTOR_ID, MotorType.kBrushless);
-    CANSparkMax rightClimberMotor = new CANSparkMax(Constants.ClimberConstants.CLIMBER_RIGHT_MOTOR_ID, MotorType.kBrushless);
+    SparkMax leftClimberMotor = new SparkMax(Constants.ClimberConstants.CLIMBER_LEFT_MOTOR_ID, MotorType.kBrushless);
+    SparkMax rightClimberMotor = new SparkMax(Constants.ClimberConstants.CLIMBER_RIGHT_MOTOR_ID, MotorType.kBrushless);
 
     DigitalInput leftlimitSwitch = new DigitalInput(Constants.ClimberConstants.CLIMBER_LEFT_LIMIT_SWITCH_ID);
     DigitalInput rightlimitSwitch = new DigitalInput(Constants.ClimberConstants.CLIMBER_RIGHT_LIMIT_SWITCH_ID);
@@ -22,9 +25,9 @@ public class Climbers extends SubsystemBase{
 
         //leftClimberMotor.setInverted(true); //we might not need this Test Climbers and find out
         //rightClimberMotor.setInverted(true);
-
-        leftClimberMotor.setIdleMode(IdleMode.kBrake);
-        rightClimberMotor.setIdleMode(IdleMode.kBrake);
+        SparkMaxConfig config = new SparkMaxConfig();
+        config.idleMode(IdleMode.kBrake);
+        rightClimberMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
     //Rais climbers (start climber motors foward)
     public void up(){
