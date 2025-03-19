@@ -120,7 +120,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     try{
         // Load the path you want to follow using its name in the GUI
-        PathPlannerPath path = PathPlannerPath.fromPathFile("C:\\Users\\bryny\\Documents\\GitHub\\Reefscape\\src\\main\\deploy\\pathplanner\\paths");
+        PathPlannerPath path = PathPlannerPath.fromPathFile("TRAINING_2024/src/main/java/frc/robot/paths/1_b.path");
 
         // Create a path following command using AutoBuilder. This will also trigger event markers.
         return AutoBuilder.followPath(path);
