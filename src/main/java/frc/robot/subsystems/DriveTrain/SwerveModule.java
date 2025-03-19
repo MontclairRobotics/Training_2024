@@ -25,7 +25,7 @@ public class SwerveModule {
     public SwerveModule(int canCoderID, int canTurnMotorID, int falconMotorDriveID, double canCoderOffSet) {
         
         
-        canCoder = new CANcoder(canCoderID,"rio"); //"rio" is the defalt canbus of the roborio
+        canCoder = new CANcoder(canCoderID,"rio"); //"rio" is the default canbus of the roborio
         canTurnMotor = new SparkMax(canTurnMotorID, MotorType.kBrushless);
         falconMotorDrive = new TalonFX(falconMotorDriveID);
         
@@ -41,15 +41,15 @@ public class SwerveModule {
         double currentVelocity = falconMotorDrive.getVelocity().getValueAsDouble()*Constants.DriveConstants.DRIVE_ENCODER_ROTATION_TO_METERS_OF_THE_WHEEL_RATIO;
         //would give us value thats how many turns of the encoder but we want it in meters/second so we multiply by the constant
         double currentRotation = canCoder.getPosition().getValueAsDouble()*2*Math.PI - canCoderOffSet;
-        // canSparkCoder.getPosition().getValue() is in rotations not radians so multiply by 2Pi (aka 360 degrees but we use radians). Then because the cancoder is an absalute encoder there is an offset
+        // canSparkCoder.getPosition().getValue() is in rotations not radians so multiply by 2Pi (aka 360 degrees but we use radians). Then because the cancoder is an absolute encoder there is an offset
         
         moduleState.optimize(Rotation2d.fromRadians(currentRotation)); 
         //optimizes so that will turn in the closest direction to get to target
 
-        driveVoltage = DrivePID.calculate(currentVelocity, moduleState.speedMetersPerSecond); //set Drive volatage using PID(current volocity, target volocity)
+        driveVoltage = DrivePID.calculate(currentVelocity, moduleState.speedMetersPerSecond); //set Drive voltage using PID(current velocity, target velocity)
         
-        turnVoltage = RotationPID.calculate(currentRotation, moduleState.angle.getRadians()); //set turn volatage using PID(current rotarion, target rotation)
-        // .angle needed .getRadians() because swervemodulestates stores a rotation 2d
+        turnVoltage = RotationPID.calculate(currentRotation, moduleState.angle.getRadians()); //set turn voltage using PID(current rotation, target rotation)
+        // .angle needed .getRadians() because swerveModuleStates stores a rotation 2d
 
         falconMotorDrive.setVoltage(driveVoltage); //tells the motors to move
         canTurnMotor.setVoltage(turnVoltage);

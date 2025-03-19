@@ -51,7 +51,7 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
 
-    drive.setDefaultCommand(  //A defalt comand will do the running all the time thing exept you can interupt it w/ another command
+    drive.setDefaultCommand(  //A default command will do the running all the time thing except you can interrupt it w/ another command
       Commands.run(
       ()-> {
         drive.setTargetSpeedFromController(drivePS5Controller); //lambda for setting target speed whether it be robo or field relative

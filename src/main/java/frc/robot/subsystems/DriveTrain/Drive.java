@@ -35,7 +35,7 @@ public class Drive extends SubsystemBase {
     
     frontLeftModule = new SwerveModule(10,1,5,2.70438768); //Creates the swerve module objects
     frontRightModule = new SwerveModule(11,2,6,1.99892559); //The values are the IDs for the motors
-    backLeftModule = new SwerveModule(9,3,7,1.2470378); //absalute encoder offsets in radians
+    backLeftModule = new SwerveModule(9,3,7,1.2470378); //Absolute encoder offsets in radians
     backRightModule = new SwerveModule(12,4,8,3.78876074);
     
     gyro = new Pigeon2(25, "rio"); //gyroscope tells us what direction the whole robot is facing
@@ -45,14 +45,14 @@ public class Drive extends SubsystemBase {
       //A helper class used later that does math with our for module positions. Uses meters (our unit for everything)
   }
 
-  public void setTargetSpeedFromController(CommandPS5Controller controller) { //This is now called as a defalt command in robot container
+  public void setTargetSpeedFromController(CommandPS5Controller controller) { //This is now called as a default command in robot container
     
     double inputRotationSpeedWithDeadband = -MathUtil.applyDeadband(controller.getRightX(), Constants.OperatorConstants.DRIVER_CONTROLLER_DEAD_BAND);  //this does not seem to be the case for now however one axis of a controller may be inverted
     double inputXSpeedWithDeadBand = -MathUtil.applyDeadband(controller.getLeftY(), Constants.OperatorConstants.DRIVER_CONTROLLER_DEAD_BAND);
     double inputYSpeedWithDeadBand = -MathUtil.applyDeadband(controller.getLeftX(), Constants.OperatorConstants.DRIVER_CONTROLLER_DEAD_BAND);
     
-    double rotationSpeedTarget = Math.pow(inputRotationSpeedWithDeadband, 3) * Constants.DriveConstants.MAX_ROTATION_SPEED; //cubed because its easier to controll (still gives value between -1 and 1) 
-    double xMoveSpeedTarget = Math.pow(inputXSpeedWithDeadBand, 3) * Constants.DriveConstants.MAX_DRIVE_SPEED; //When controller all the way should output 2 (meters persecond)
+    double rotationSpeedTarget = Math.pow(inputRotationSpeedWithDeadband, 3) * Constants.DriveConstants.MAX_ROTATION_SPEED; //cubed because its easier to control (still gives value between -1 and 1) 
+    double xMoveSpeedTarget = Math.pow(inputXSpeedWithDeadBand, 3) * Constants.DriveConstants.MAX_DRIVE_SPEED; //When controller all the way should output 2 (meters /s)
     double yMoveSpeedTarget = Math.pow(inputYSpeedWithDeadBand, 3) * Constants.DriveConstants.MAX_DRIVE_SPEED;
 
     if(isFieldRelative) {
