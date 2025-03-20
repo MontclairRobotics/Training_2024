@@ -103,6 +103,12 @@ public class RobotContainer {
     @SuppressWarnings("unused")
     POVButton operatorLeftDPad = new POVButton(operatorHID, 270);
 
+    GenericHID driverHID = drivePS5Controller.getHID();
+    POVButton driverUpDPad = new POVButton(driverHID, 0);
+    POVButton driverRightDPad = new POVButton(driverHID, 90);
+    POVButton driverDownDPad = new POVButton(driverHID, 180);
+    POVButton driverLeftDPad = new POVButton(driverHID, 270);
+    
 
     //Drive
     drivePS5Controller.circle().onTrue(drive.toggleRobotRelativeCommand());
@@ -127,16 +133,16 @@ public class RobotContainer {
     drivePS5Controller.L1().onTrue(Commands.runOnce(() -> SignalLogger.start()));
     drivePS5Controller.R1().onTrue(Commands.runOnce(() -> SignalLogger.stop()));
     
-    drivePS5Controller.triangle().whileTrue(
+    driverDownDPad.whileTrue(
       drive.sysIdDynamic(Direction.kForward)
     );
-    drivePS5Controller.circle().whileTrue(
+    driverLeftDPad.whileTrue(
       drive.sysIdDynamic(Direction.kReverse)
     );
-    drivePS5Controller.cross().whileTrue(
+    driverRightDPad.whileTrue(
       drive.sysIdQuasistatic(Direction.kForward)
     );
-    drivePS5Controller.square().whileTrue(
+    driverUpDPad.whileTrue(
       drive.sysIdQuasistatic(Direction.kReverse)
     );
   }
