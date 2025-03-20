@@ -54,4 +54,13 @@ public class SwerveModule {
         falconMotorDrive.setVoltage(driveVoltage); //tells the motors to move
         canTurnMotor.setVoltage(turnVoltage);
     }
+
+    public void driveVoltageDrive(double voltage) {
+        falconMotorDrive.setVoltage(voltage);
+    }
+
+    public void rotationVoltageDrive(double voltage) {
+        canTurnMotor.setVoltage(voltage);
+    }
+
 }

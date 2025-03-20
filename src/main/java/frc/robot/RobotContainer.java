@@ -3,6 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
@@ -14,6 +16,7 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Sprocket;
 import frc.robot.subsystems.DriveTrain.Drive;
 
+import com.ctre.phoenix6.SignalLogger;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
 
@@ -25,6 +28,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -115,6 +120,25 @@ public class RobotContainer {
     //Shooter
     drivePS5Controller.triangle().onTrue(shooter.shootCommand()).onFalse(shooter.stopCommand());
     drivePS5Controller.square().onTrue(shooter.reverseShooterCommand()).onFalse(shooter.stopCommand());
+
+
+
+
+    drivePS5Controller.L1().onTrue(Commands.runOnce(() -> SignalLogger.start()));
+    drivePS5Controller.R1().onTrue(Commands.runOnce(() -> SignalLogger.stop()));
+    
+    drivePS5Controller.triangle().whileTrue(
+      drive.sysIdDynamic(Direction.kForward)
+    );
+    drivePS5Controller.circle().whileTrue(
+      drive.sysIdDynamic(Direction.kReverse)
+    );
+    drivePS5Controller.cross().whileTrue(
+      drive.sysIdQuasistatic(Direction.kForward)
+    );
+    drivePS5Controller.square().whileTrue(
+      drive.sysIdQuasistatic(Direction.kReverse)
+    );
   }
 
   public Command getAutonomousCommand() {
@@ -129,4 +153,5 @@ public class RobotContainer {
         return Commands.none();
     }
   }
+
 }
