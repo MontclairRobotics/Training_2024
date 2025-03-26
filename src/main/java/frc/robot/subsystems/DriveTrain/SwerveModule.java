@@ -8,6 +8,9 @@ import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.DoublePublisher;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.Constants;
 
 public class SwerveModule {
@@ -20,6 +23,8 @@ public class SwerveModule {
     public double driveVoltage;
     public double turnVoltage;
     public double canCoderOffSet;
+    private DoublePublisher targetPub;
+    private DoublePublisher currentRotationPub;
     
     
     public SwerveModule(int canCoderID, int canTurnMotorID, int falconMotorDriveID, double canCoderOffSet) {
@@ -29,11 +34,14 @@ public class SwerveModule {
         canTurnMotor = new SparkMax(canTurnMotorID, MotorType.kBrushless);
         falconMotorDrive = new TalonFX(falconMotorDriveID);
         
-        RotationPID = new PIDController(2,0,0); //placeholder values for PID
+        RotationPID = new PIDController(0.29,0,0); //placeholder values for PID
         DrivePID  = new PIDController(5.7,0,0); //placeholder values for PID
         RotationPID.enableContinuousInput(-Math.PI, Math.PI);
         // This is needed because in a circle -180 is the same as +180
         this.canCoderOffSet = canCoderOffSet;
+        NetworkTable table = NetworkTableInstance.getDefault().getTable("" + falconMotorDriveID);
+        targetPub = table.getDoubleTopic("Target rotation").publish();
+        currentRotationPub = table.getDoubleTopic("Current rotation").publish();
     }
     
     public void setStateAndMove(SwerveModuleState moduleState) {
@@ -51,8 +59,11 @@ public class SwerveModule {
         turnVoltage = RotationPID.calculate(currentRotation, moduleState.angle.getRadians()); //set turn voltage using PID(current rotation, target rotation)
         // .angle needed .getRadians() because swerveModuleStates stores a rotation 2d
 
-        falconMotorDrive.setVoltage(driveVoltage); //tells the motors to move
+        //falconMotorDrive.setVoltage(driveVoltage); //tells the motors to move
         canTurnMotor.setVoltage(turnVoltage);
+
+        targetPub.set(moduleState.angle.getRadians());
+        currentRotationPub.set(currentRotation);
     }
 
     public void driveVoltageDrive(double voltage) {
